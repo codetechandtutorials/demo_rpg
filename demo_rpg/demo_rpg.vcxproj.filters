@@ -23,16 +23,10 @@
     <ClInclude Include="hp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="hitpointtypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="warrior.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="statblock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="stattypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="wizard.h">
@@ -45,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="allclasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="levelsystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
