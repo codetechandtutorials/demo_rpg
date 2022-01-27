@@ -1,59 +1,59 @@
 #pragma once
 #include <cstdint>
-typedef std::uint16_t hptype;
-class hp {
+typedef std::uint16_t welltype;
+class PointWell {
 public:
 	// returns true if set successfully
-	bool setMaxHP(hptype new_max_hp) {
-		if (new_max_hp < 1)
+	bool setMax(welltype new_max) {
+		if (new_max < 1)
 			return false;
 
-		MaxHP = new_max_hp;
+		Max = new_max;
 
-		if (CurrentHP > MaxHP)
-			CurrentHP = MaxHP;
+		if (Current > Max)
+			Current = Max;
 
 		return true;
 	}
 
-	hptype getMaxHp() {
-		return MaxHP;
+	welltype getMax() {
+		return Max;
 	}
 
-	hptype getCurrentHP() {
-		return CurrentHP;
+	welltype getCurrent() {
+		return Current;
 	}
 
-	void takeDamage(hptype damage) {
-		if (damage > CurrentHP) {
-			CurrentHP = 0;
+	void reduce(welltype damage) {
+		if (damage > Current) {
+			Current = 0;
 			return;
 		}
 
-		CurrentHP -= damage;
+		Current -= damage;
 	}
 
-	void heal(hptype amount) {
-		if (amount + CurrentHP > MaxHP) {
-			CurrentHP = MaxHP;
+	void increase(welltype amount) {
+		if (amount + Current > Max) {
+			Current = Max;
 			return;
 		}
 
-		CurrentHP += amount;
+		Current += amount;
 	}
 
-	hp() { CurrentHP = 1; MaxHP = 1; }
+	PointWell() { Current = 1; Max = 1; }
 
-	hp(hptype cHP, hptype mHP) {
-		CurrentHP = cHP;
-		MaxHP = mHP;
-		if (CurrentHP > MaxHP)
-			CurrentHP = MaxHP;
+	PointWell(welltype c, welltype m) {
+		Current = c;
+		Max = m;
+		if (Current > Max)
+			Current = Max;
 	}
 
 private:
-	hptype CurrentHP;
-	hptype MaxHP;
+	welltype Current;
+	welltype Max;
 };
 
 
