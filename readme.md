@@ -1,33 +1,43 @@
 # demo_rpg
 
-coding some basic rpg systems in C++
+A Coding some basic rpg systems in C++ for practice and fun.
+[YT Playlist](https://www.youtube.com/playlist?list=PLalVdRk2RC6pqOVxRNj5Uui7FN4r-WorM)
 
-## designs in mind
+## Designs Ideas
 
-some quick theoretical lists to get started
+Some quick theoretical lists that we will iterate on.
 
-### character classes
+### Character Classes
 
-- Warrior: highest hp/damage reduction
-- Wizard: uses magic
-- Cleric: uses support magic
-- Rogue: highest consistent melee/ranged damage
+- Warrior: Highest HP
+- Wizard: Highest Magic Damage
+- Cleric: Best Support Abilities
+- Rogue: Highest Physical Damage
 
-### leveling system
+### Leveling System
 
-- gain stats based on class
-- gain abilities based on level
+- Gain stats and abilities based on class and levels.
 
-### items
+#### Stats
+
+- Strength: Involved in Physical Calculations
+- Intelligence: Involved in Magic Calculations
+- Agility: Involved in Nimbleness Calculations 
+- Armor: Involved in Physical Reduction Calculations
+- Resistance: Involved in Element Damage Reduction Calculations
+
+#### Levels
+
+- Level Trees
+
+### Items
 
 - shop system
 - equipment
 - consumables
 
-### game loop
+### Game Loop
 
 - battle system: turn based
 - world levels
 - different monsters
-
-
