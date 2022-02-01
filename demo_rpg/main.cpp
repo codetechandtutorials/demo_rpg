@@ -11,11 +11,11 @@ int main() {
 			<< "-EXP: " << p1.getCurrentEXP() << '/' << p1.getEXPToNextLevel() << '\n'
 			<< "-HP: " << p1.getCurrentHP() << '/' << p1.getMaxHP() << '\n'
 			<< "-MP: " << p1.getCurrentMP() << '/' << p1.getMaxMP() << '\n'
-			<< "-Stength: " << p1.getStrength() << '\n'
-			<< "-Intellect: " << p1.getIntellect() << '\n'
-			<< "-Agility: " << p1.getAgility() << '\n'
-			<< "-Armor: " << p1.getArmor() << '\n'
-			<< "-Resist: " << p1.getElementRes() << '\n';
+			<< "-Stength: " << p1.getTotalStrength() << '\n'
+			<< "-Intellect: " << p1.getTotalIntellect() << '\n'
+			<< "-Agility: " << p1.getTotalAgility() << '\n'
+			<< "-Armor: " << p1.getTotalArmor() << '\n'
+			<< "-Resist: " << p1.getTotalElementRes() << '\n';
 
 		auto AllAbilities= p1.getAbilityList();
 
@@ -24,8 +24,11 @@ int main() {
 			std::cout << "  -" << abil.Name << '\n';
 		}
 
-		if (i < 1) 
+		if (i < 1) {
 			p1.gainEXP(100u);
+			Buff arm_buff("StoneShield", 10, 0, 0, 0, 5);
+			p1.applyBuff(arm_buff);
+		}
 	}
 
 	return 0;

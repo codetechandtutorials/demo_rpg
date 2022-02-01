@@ -1,13 +1,11 @@
 #pragma once
+#include "types.h"
 #include "statblock.h"
 #include "pointwell.h"
 #include "ability.h"
-#include <cstdint>
 #include <memory>
 #include <string>
 #include <vector>
-typedef std::uint64_t exptype;
-typedef std::uint16_t leveltype;
 
 class PlayerCharacterDelegate : public StatBlock {
 public:
@@ -35,6 +33,12 @@ public:
 
   exptype getEXPToNextLevel() {
     return EXPToNextLevel;
+  }
+
+  void applyBuff(Buff b) {
+
+
+    addNewBuff(b);
   }
 
   virtual void LevelUp() = 0;
@@ -92,14 +96,14 @@ public:
     MP = std::make_unique<PointWell>(BASEMP, BASEMP);  // be sure to init before PCCONSTRUCT MACRO
     PCCONSTRUCT
 
-    Abilities.emplace_back("Heal", 2u, 1u, ABILITYTARGET::ALLY, 2u, ABILITYSCALER::INT);
+      Abilities.emplace_back("Heal", 2u, 1u, ABILITYTARGET::ALLY, 2u, ABILITYSCALER::INT);
   }
 private:
   void LevelUp() override {
     LEVELUP
-    if (CurrentLevel == 2) {
-      Abilities.emplace_back("Smite", 2u, 1u, ABILITYTARGET::ENEMY, 2u, ABILITYSCALER::INT);
-    }
+      if (CurrentLevel == 2) {
+        Abilities.emplace_back("Smite", 2u, 1u, ABILITYTARGET::ENEMY, 2u, ABILITYSCALER::INT);
+      }
   }
 };
 
@@ -141,7 +145,7 @@ public:
   Warrior() : PlayerCharacterDelegate() {
     //MP = std::make_unique<PointWell>(BASEMP, BASEMP);  // be sure to init before PCCONSTRUCT MACRO
     PCCONSTRUCT
-     
+
   }
 private:
   void LevelUp() override {
@@ -191,7 +195,7 @@ public:
   welltype getCurrentHP() { return pcclass->HP->getCurrent(); }
   welltype getMaxHP() { return pcclass->HP->getMax(); }
 
-  welltype getCurrentMP() { 
+  welltype getCurrentMP() {
     if (pcclass->MP)
       return pcclass->MP->getCurrent();
     else
@@ -204,15 +208,25 @@ public:
       return 0;
   }
 
-  stattype getStrength() { return pcclass->getStrength(); }
-  stattype getIntellect() { return pcclass->getIntellect(); }
-  stattype getAgility() { return pcclass->getAgility(); }
-  stattype getArmor() { return pcclass->getArmor(); }
-  stattype getElementRes() { return pcclass->getElementRes(); }
+  stattype getBaseStrength() { return pcclass->getBaseStrength(); }
+  stattype getBaseIntellect() { return pcclass->getBaseIntellect(); }
+  stattype getBaseAgility() { return pcclass->getBaseAgility(); }
+  stattype getBaseArmor() { return pcclass->getBaseArmor(); }
+  stattype getBaseElementRes() { return pcclass->getBaseElementRes(); }
+
+  stattype getTotalStrength() { return pcclass->getTotalStrength(); }
+  stattype getTotalIntellect() { return pcclass->getTotalIntellect(); }
+  stattype getTotalAgility() { return pcclass->getTotalAgility(); }
+  stattype getTotalArmor() { return pcclass->getTotalArmor(); }
+  stattype getTotalElementRes() { return pcclass->getTotalElementRes(); }
 
   std::vector<Ability> getAbilityList() { return pcclass->Abilities; }
 
   void gainEXP(exptype amt) { pcclass->gainEXP(amt); }
   void takeDamage(welltype amt) { pcclass->HP->reduceCurrent(amt); }
   void heal(welltype amt) { pcclass->HP->increaseCurrent(amt); }
+
+  void applyBuff(Buff buff) {
+    pcclass->applyBuff(buff);
+  }
 };

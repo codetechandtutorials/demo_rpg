@@ -1,6 +1,5 @@
 #pragma once
-#include <cstdint>
-typedef std::uint16_t welltype;
+#include "types.h"
 class PointWell {
 public:
 	// returns true if set successfully
