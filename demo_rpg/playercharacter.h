@@ -3,6 +3,7 @@
 #include "statblock.h"
 #include "pointwell.h"
 #include "ability.h"
+#include "equipment.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -36,9 +37,11 @@ public:
   }
 
   void applyBuff(Buff b) {
-
-
     addNewBuff(b);
+  }
+
+  std::vector<Buff> getBuffList() {
+    return Buffs;
   }
 
   virtual void LevelUp() = 0;
@@ -182,12 +185,39 @@ private:
 class PlayerCharacter {
 private:
   PlayerCharacterDelegate* pcclass;
+  Equipment* EquippedArmor[(unsigned long long)ARMORSLOT::NUM_SLOTS];
+  Equipment* EquippedWeapons[(unsigned long long)WEAPONSLOT::NUM_SLOTS];
 
 public:
-  PlayerCharacter() = delete;
-  PlayerCharacter(PlayerCharacterDelegate* pc) : pcclass(pc) {}
-  ~PlayerCharacter() { delete pcclass; pcclass = nullptr; }
+  PlayerCharacter(PlayerCharacterDelegate* pc) : pcclass(pc) {
+    auto i = 0;
+    for (i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      EquippedArmor[i] = nullptr;
+    }
+    for (i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      EquippedWeapons[i] = nullptr;
+    }
+  }
+  ~PlayerCharacter() {
+    delete pcclass;
+    pcclass = nullptr;
+    auto i = 0;
+    for (i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      if (EquippedArmor[i]) {
+        delete EquippedArmor[i];
+        EquippedArmor[i] = nullptr;
+      }
+    }
+    for (i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      if (EquippedWeapons[i]) {
+        delete EquippedWeapons[i];
+        EquippedWeapons[i] = nullptr;
+      }
+    }
+  }
 
+
+  // Getters
   std::string getClassName() { return pcclass->getClassName(); }
   leveltype getLevel() { return pcclass->getLevel(); }
   exptype getCurrentEXP() { return pcclass->getCurrentEXP(); }
@@ -214,14 +244,97 @@ public:
   stattype getBaseArmor() { return pcclass->getBaseArmor(); }
   stattype getBaseElementRes() { return pcclass->getBaseElementRes(); }
 
-  stattype getTotalStrength() { return pcclass->getTotalStrength(); }
-  stattype getTotalIntellect() { return pcclass->getTotalIntellect(); }
-  stattype getTotalAgility() { return pcclass->getTotalAgility(); }
-  stattype getTotalArmor() { return pcclass->getTotalArmor(); }
-  stattype getTotalElementRes() { return pcclass->getTotalElementRes(); }
+  stattype getTotalStrength() {
+    stattype str_from_armor = 0;
+    for (auto i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      if (EquippedArmor[i]) {
+        str_from_armor += EquippedArmor[i]->Stats.Strength;
+      }
+    }
+    stattype str_from_weapons = 0;
+    for (auto i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      if (EquippedWeapons[i]) {
+        str_from_weapons += EquippedWeapons[i]->Stats.Strength;
+      }
+    }
+    return pcclass->getTotalStrength() + str_from_armor + str_from_weapons;
+  }
+
+  stattype getTotalIntellect() {
+    stattype int_from_armor = 0;
+    for (auto i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      if (EquippedArmor[i]) {
+        int_from_armor += EquippedArmor[i]->Stats.Intellect;
+      }
+    }
+    stattype int_from_weapons = 0;
+    for (auto i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      if (EquippedWeapons[i]) {
+        int_from_weapons += EquippedWeapons[i]->Stats.Intellect;
+      }
+    }
+    return pcclass->getTotalIntellect() + int_from_armor + int_from_weapons;
+  }
+  stattype getTotalAgility() {
+    stattype agil_from_armor = 0;
+    for (auto i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      if (EquippedArmor[i]) {
+        agil_from_armor += EquippedArmor[i]->Stats.Intellect;
+      }
+    }
+    stattype agil_from_weapons = 0;
+    for (auto i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      if (EquippedWeapons[i]) {
+        agil_from_weapons += EquippedWeapons[i]->Stats.Agility;
+      }
+    }
+    return pcclass->getTotalAgility() + agil_from_armor + agil_from_weapons;
+  }
+  stattype getTotalArmor() {
+    // get all armor from equipped armor
+    stattype armor_from_armor = 0;
+    for (auto i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      if (EquippedArmor[i]) {
+        armor_from_armor += EquippedArmor[i]->Stats.Armor;
+      }
+    }
+    stattype armor_from_weapons = 0;
+    for (auto i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      if (EquippedWeapons[i]) {
+        armor_from_weapons += EquippedWeapons[i]->Stats.Armor;
+      }
+    }
+    return pcclass->getTotalArmor() + armor_from_armor + armor_from_weapons;
+  }
+
+  stattype getTotalElementRes() {
+    stattype resist_from_armor = 0;
+    for (auto i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
+      if (EquippedArmor[i]) {
+        resist_from_armor += EquippedArmor[i]->Stats.ElementRes;
+      }
+    }
+    stattype elres_from_weapons = 0;
+    for (auto i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
+      if (EquippedWeapons[i]) {
+        elres_from_weapons += EquippedWeapons[i]->Stats.ElementRes;
+      }
+    }
+    return pcclass->getTotalElementRes() + resist_from_armor + elres_from_weapons;
+  }
 
   std::vector<Ability> getAbilityList() { return pcclass->Abilities; }
+  std::vector<Buff> getBuffList() { return pcclass->getBuffList(); }
 
+  Equipment* getEquippedArmorAt(unsigned long long i) {
+    return (dynamic_cast<Armor*>(EquippedArmor[i]));
+  }
+
+  Equipment* getEquippedWeaponAt(unsigned long long i) {
+    return (dynamic_cast<Weapon*>(EquippedWeapons[i]));
+  }
+
+  // Modifiers
   void gainEXP(exptype amt) { pcclass->gainEXP(amt); }
   void takeDamage(welltype amt) { pcclass->HP->reduceCurrent(amt); }
   void heal(welltype amt) { pcclass->HP->increaseCurrent(amt); }
@@ -229,4 +342,51 @@ public:
   void applyBuff(Buff buff) {
     pcclass->applyBuff(buff);
   }
+
+  // todo: update once we have an inventory
+  bool equip(Equipment* thing) {
+    Armor* armor = dynamic_cast<Armor*>(thing);
+    if (armor) {
+      // equip armor
+      unsigned long long slot_num = (unsigned long long)armor->Slot;
+
+      if (EquippedArmor[slot_num]) {
+        delete EquippedArmor[slot_num];  // todo: move to invetory instead of delete
+        EquippedArmor[slot_num] = nullptr;
+        EquippedArmor[slot_num] = armor;
+      }
+      else {
+        EquippedArmor[slot_num] = armor;
+      }
+
+
+      return true;
+    }
+
+    Weapon* weapon = dynamic_cast<Weapon*>(thing);
+    if (weapon) {
+      // equip weapon
+      unsigned long long slot_num = (unsigned long long)weapon->Slot;
+
+      if (EquippedWeapons[slot_num]) {
+        delete EquippedWeapons[slot_num];  // todo: move to invetory instead of delete
+        EquippedWeapons[slot_num] = nullptr;
+        EquippedWeapons[slot_num] = weapon;
+      }
+      else {
+        EquippedWeapons[slot_num] = weapon;
+      }
+
+      return true;
+    }
+
+    return false;
+
+  }
+
+
+  // deleted constructors
+  PlayerCharacter() = delete;
+  PlayerCharacter(const PlayerCharacter&) = delete;
+  PlayerCharacter(const PlayerCharacter&&) = delete;
 };

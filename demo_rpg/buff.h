@@ -22,8 +22,6 @@ struct Buff {
 
   std::string Name;
   uint16_t Duration;
-
   CoreStats BuffedStats;
-
   bool isDebuff;
 };

@@ -1,9 +1,9 @@
 #pragma once
 #include "types.h"
 struct CoreStats {
-  stattype Strength = 1;
-  stattype Intellect = 1;
-  stattype Agility = 1;
+  stattype Strength = 0;
+  stattype Intellect = 0;
+  stattype Agility = 0;
   stattype Armor = 0;
   stattype ElementRes = 0;
 
