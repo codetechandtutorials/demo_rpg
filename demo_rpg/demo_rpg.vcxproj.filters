@@ -18,6 +18,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="item.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pointwell.h">
@@ -41,7 +44,10 @@
     <ClInclude Include="corestats.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="equipment.h">
+    <ClInclude Include="item.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="item_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

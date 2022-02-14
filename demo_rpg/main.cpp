@@ -1,5 +1,7 @@
 #include <iostream>
 #include "playercharacter.h"
+#include "item_manager.h"
+
 int main() {
 
   // just test code for now, replace 'Warrior' with your class to test
@@ -12,7 +14,7 @@ int main() {
     plate_armor_stats.Armor = 5;
     plate_armor_stats.ElementRes = 3;
 
-    Armor* FullPlateMail = new Armor("Shiny Plate Armor", plate_armor_stats, ARMORSLOT::CHEST);
+    Item* FullPlateMail = ItemManager::CreateArmor("Shiny Plate Armor", plate_armor_stats, ARMORSLOT::CHEST);
     if (p1.equip(FullPlateMail)) {
       std::cout << "equip success!\n";
     }
@@ -26,7 +28,7 @@ int main() {
     leather_helm_stats.Armor = 1;
     leather_helm_stats.ElementRes = 1;
 
-    Armor* LeatherHelm = new Armor("Plain Leather Helmet", leather_helm_stats, ARMORSLOT::HELMET);
+    Item* LeatherHelm = ItemManager::CreateArmor("Plain Leather Helmet", leather_helm_stats, ARMORSLOT::HELMET);
     if (p1.equip(LeatherHelm)) {
       std::cout << "equip success!\n";
     }
@@ -37,7 +39,7 @@ int main() {
 
   {
 
-    Weapon* LongSword = new Weapon("Long Sword", CoreStats(), WEAPONSLOT::MELEE, 3, 9);
+    Item* LongSword = ItemManager::CreateWeapon("Long Sword", CoreStats(), WEAPONSLOT::MELEE, 3, 9);
     if (p1.equip(LongSword)) {
       std::cout << "equip success!\n";
     }

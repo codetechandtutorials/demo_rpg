@@ -3,7 +3,7 @@
 #include "statblock.h"
 #include "pointwell.h"
 #include "ability.h"
-#include "equipment.h"
+#include "item.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -185,8 +185,8 @@ private:
 class PlayerCharacter {
 private:
   PlayerCharacterDelegate* pcclass;
-  Equipment* EquippedArmor[(unsigned long long)ARMORSLOT::NUM_SLOTS];
-  Equipment* EquippedWeapons[(unsigned long long)WEAPONSLOT::NUM_SLOTS];
+  EquipmentDelegate* EquippedArmor[(unsigned long long)ARMORSLOT::NUM_SLOTS];
+  EquipmentDelegate* EquippedWeapons[(unsigned long long)WEAPONSLOT::NUM_SLOTS];
 
 public:
   PlayerCharacter(PlayerCharacterDelegate* pc) : pcclass(pc) {
@@ -326,11 +326,11 @@ public:
   std::vector<Ability> getAbilityList() { return pcclass->Abilities; }
   std::vector<Buff> getBuffList() { return pcclass->getBuffList(); }
 
-  Equipment* getEquippedArmorAt(unsigned long long i) {
+  EquipmentDelegate* getEquippedArmorAt(unsigned long long i) {
     return (dynamic_cast<Armor*>(EquippedArmor[i]));
   }
 
-  Equipment* getEquippedWeaponAt(unsigned long long i) {
+  EquipmentDelegate* getEquippedWeaponAt(unsigned long long i) {
     return (dynamic_cast<Weapon*>(EquippedWeapons[i]));
   }
 
@@ -344,8 +344,13 @@ public:
   }
 
   // todo: update once we have an inventory
-  bool equip(Equipment* thing) {
-    Armor* armor = dynamic_cast<Armor*>(thing);
+  bool equip(Item* item_to_equip) {
+    if (!item_to_equip)
+      return false;
+    if (!item_to_equip->GetData())
+      return false;
+
+    Armor* armor = dynamic_cast<Armor*>(item_to_equip->_data);
     if (armor) {
       // equip armor
       unsigned long long slot_num = (unsigned long long)armor->Slot;
@@ -358,12 +363,10 @@ public:
       else {
         EquippedArmor[slot_num] = armor;
       }
-
-
       return true;
     }
 
-    Weapon* weapon = dynamic_cast<Weapon*>(thing);
+    Weapon* weapon = dynamic_cast<Weapon*>(item_to_equip->_data);
     if (weapon) {
       // equip weapon
       unsigned long long slot_num = (unsigned long long)weapon->Slot;
@@ -376,7 +379,6 @@ public:
       else {
         EquippedWeapons[slot_num] = weapon;
       }
-
       return true;
     }
 

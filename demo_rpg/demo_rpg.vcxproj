@@ -139,13 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ability.h" />
     <ClInclude Include="buff.h" />
     <ClInclude Include="corestats.h" />
-    <ClInclude Include="equipment.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="item_manager.h" />
     <ClInclude Include="pointwell.h" />
     <ClInclude Include="playercharacter.h" />
     <ClInclude Include="statblock.h" />
