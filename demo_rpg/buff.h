@@ -1,7 +1,6 @@
 #pragma once
 #include "types.h"
 #include "corestats.h"
-#include "statblock.h"
 #include <string>
 struct Buff {
   Buff(const char* name, stattype str = 0, stattype intel = 0, stattype agi = 0,

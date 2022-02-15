@@ -38,7 +38,6 @@ int main() {
   }
 
   {
-
     Item* LongSword = ItemManager::CreateWeapon("Long Sword", CoreStats(), WEAPONSLOT::MELEE, 3, 9);
     if (p1.equip(LongSword)) {
       std::cout << "equip success!\n";
@@ -46,9 +45,7 @@ int main() {
     else {
       std::cout << "equip failed!\n";
     }
-
   }
-
 
 
   for (int i = 0; i < 2; i++) {
@@ -94,16 +91,29 @@ int main() {
       }
     }
 
-
-
-
-
     if (i < 1) {
       p1.gainEXP(100u);
       Buff arm_buff("ThickSkin", 0, 0, 0, 2, 2);
       p1.applyBuff(arm_buff);
     }
   }
+
+
+  std::cout << "health before taking damage: " << p1.getCurrentHP() << '/' << p1.getMaxHP() << '\n';
+
+  p1.takeDamage(1);
+
+  std::cout << "health after taking damage: " << p1.getCurrentHP() << '/' << p1.getMaxHP() << '\n';
+
+
+  Item* HealPotion = ItemManager::CreatePotion("Minor Heal Potion", 3u, 3u);
+
+
+  p1.use(HealPotion);
+
+  std::cout << "health after using potion: " << p1.getCurrentHP() << '/' << p1.getMaxHP() << '\n';
+
+
 
   return 0;
 }

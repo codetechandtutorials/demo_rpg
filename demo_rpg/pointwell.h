@@ -2,55 +2,57 @@
 #include "types.h"
 class PointWell {
 public:
-	// returns true if set successfully
-	bool setMax(welltype new_max) {
-		if (new_max < 1)
-			return false;
+  // returns true if set successfully
+  bool setMax(welltype new_max) {
+    if (new_max < 1)
+      return false;
 
-		MaxWell = new_max;
+    MaxWell = new_max;
 
-		if (CurrentFullness > MaxWell)
-			CurrentFullness = MaxWell;
+    if (CurrentFullness > MaxWell)
+      CurrentFullness = MaxWell;
 
-		return true;
-	}
+    return true;
+  }
 
-	welltype getMax() {
-		return MaxWell;
-	}
+  welltype getMax() {
+    return MaxWell;
+  }
 
-	welltype getCurrent() {
-		return CurrentFullness;
-	}
+  welltype getCurrent() {
+    return CurrentFullness;
+  }
 
-	void reduceCurrent(welltype damage) {
-		if (damage > CurrentFullness) {
-			CurrentFullness = 0;
-			return;
-		}
+  bool isFull() { return (CurrentFullness == MaxWell); }
 
-		CurrentFullness -= damage;
-	}
+  void reduceCurrent(welltype damage) {
+    if (damage > CurrentFullness) {
+      CurrentFullness = 0;
+      return;
+    }
 
-	void increaseCurrent(welltype amount) {
-		if (amount + CurrentFullness > MaxWell) {
-			CurrentFullness = MaxWell;
-			return;
-		}
+    CurrentFullness -= damage;
+  }
 
-		CurrentFullness += amount;
-	}
+  void increaseCurrent(welltype amount) {
+    if (amount + CurrentFullness > MaxWell) {
+      CurrentFullness = MaxWell;
+      return;
+    }
 
-	PointWell() { CurrentFullness = 1; MaxWell = 1; }
+    CurrentFullness += amount;
+  }
 
-	PointWell(welltype c, welltype m) {
-		CurrentFullness = c;
-		MaxWell = m;
-		if (CurrentFullness > MaxWell)
-			CurrentFullness = MaxWell;
-	}
+  PointWell() { CurrentFullness = 1; MaxWell = 1; }
+
+  PointWell(welltype c, welltype m) {
+    CurrentFullness = c;
+    MaxWell = m;
+    if (CurrentFullness > MaxWell)
+      CurrentFullness = MaxWell;
+  }
 
 private:
-	welltype CurrentFullness;
-	welltype MaxWell;
+  welltype CurrentFullness;
+  welltype MaxWell;
 };

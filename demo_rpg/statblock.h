@@ -3,8 +3,6 @@
 #include "buff.h"
 #include <vector>
 
-
-
 class StatBlock {
   CoreStats base;
   CoreStats fromBuffs;
