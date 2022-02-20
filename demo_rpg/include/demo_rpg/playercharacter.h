@@ -338,11 +338,11 @@ public:
   const std::vector<Ability> getAbilityList() const { return pcclass->Abilities; }
   const std::vector<Buff> getBuffList() const { return pcclass->getBuffList(); }
   const std::vector<Item*> getBackpackList() const { return Backpack; }
-  EquipmentDelegate* getEquippedArmorAt(unsigned long long i) const {
+  Armor* getEquippedArmorAt(unsigned long long i) const {
     if (!EquippedArmor[i]) return nullptr;
     return (dynamic_cast<Armor*>(EquippedArmor[i]->_data));
   }
-  EquipmentDelegate* getEquippedWeaponAt(unsigned long long i) const {
+  Weapon* getEquippedWeaponAt(unsigned long long i) const {
     if (!EquippedWeapons[i]) return nullptr;
 
     return (dynamic_cast<Weapon*>(EquippedWeapons[i]->_data));
