@@ -4,6 +4,9 @@
 #include "pointwell.h"
 #include "ability.h"
 #include "item.h"
+#include "potion.h"
+#include "armor.h"
+#include "weapon.h"
 #include "buff.h"
 #include "item_manager.h"
 #include <memory>
@@ -238,7 +241,7 @@ public:
     else
       return 0;
   }
-  const bool IsMaxHealth() const { return (pcclass->HP->getCurrent() == pcclass->HP->getMax()); }
+  const bool IsMaxHealth() const { return pcclass->HP->isFull(); }
   const welltype getMaxMP() const {
     if (pcclass->MP)
       return pcclass->MP->getMax();

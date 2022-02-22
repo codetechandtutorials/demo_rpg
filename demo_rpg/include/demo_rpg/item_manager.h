@@ -1,7 +1,12 @@
 #pragma once
 #include "corestats.h"
 #include "item.h"
+#include "armor.h"
+#include "weapon.h"
 
+class Potion;
+class Armor;
+class Weapon;
 class PlayerCharacter;
 
 class ItemManager {

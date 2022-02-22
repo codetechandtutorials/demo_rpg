@@ -13,40 +13,6 @@ protected:
   friend class Item;
 };
 
-class Potion final : public ItemDelegate {
-public:
-  welltype HealAmount;
-  itemcount Quantity;
-
-  const Buff* GetBuff() const { return buff; }
-
-  void SetBuff(Buff* new_buff) {
-    if (buff) {
-      delete buff;
-      buff = nullptr;
-    } 
-    buff = new_buff;
-  }
-
-
-private:
-
-  Buff* buff;
-
-  Potion(std::string name, welltype hp_heal = 1u, itemcount quant = 1u, Buff* buf = nullptr)
-    : ItemDelegate(name), buff(buf), HealAmount(hp_heal), Quantity(quant) {
-  }
-
-  ~Potion() {  // only ItemManger can clean this up
-    if (buff) {
-      delete buff;
-      buff = nullptr;
-    }
-  }
-
-  friend class ItemManager;
-};
-
 class EquipmentDelegate : public ItemDelegate {
 public:
   const std::uint32_t UniqueId;
@@ -57,52 +23,11 @@ protected:
 private:
 };
 
-enum class ARMORSLOT { HELMET, CHEST, LEGS, BOOTS, GLOVES, RING1, RING2, NECK, NUM_SLOTS };  // NUM SLOTS FOR MAKING ARRAYS OF ARMOR SLOTS
-class Armor final : public EquipmentDelegate {
-public:
-  ARMORSLOT Slot;
-private:
-  Armor(std::string name, CoreStats cstats, ARMORSLOT slot) : EquipmentDelegate(name, cstats), Slot(slot) {}
-  Armor() = delete;
-  Armor(const Armor&) = delete;
-  Armor(const Armor&&) = delete;
-  ~Armor() {}  // only ItemManger can clean this up
-  friend class ItemManager;
-
-};
-
-enum class WEAPONSLOT { MELEE, RANGED, NUM_SLOTS };
-class Weapon final : public EquipmentDelegate {
-public:
-  WEAPONSLOT Slot;
-  damagetype MinDamage;
-  damagetype MaxDamage;
-  bool is2H;
-
-private:
-  Weapon(std::string name, CoreStats cstats, WEAPONSLOT slot, damagetype min, damagetype max, bool twohanded = false)
-    : EquipmentDelegate(name, cstats), Slot(slot), MinDamage(min), MaxDamage(max), is2H(twohanded) {
-  }
-
-  Weapon() = delete;
-  Weapon(const Weapon&) = delete;
-  Weapon(const Weapon&&) = delete;
-
-  ~Weapon() {}  // only ItemManger can clean this up
-
-  friend class ItemManager;
-};
-
-
-
-
-//#include <iostream>  // for testing
 // use this one in your runtime code
 class Item final {
 public:
   const ItemDelegate* GetData() { return _data; }
   bool GetMarkedForDeletion() const { return _marked_for_deletion; }
-
 private:
   ~Item() {   // only ItemManger can clean this up
     if (_data) {
@@ -130,6 +55,5 @@ private:
   //  }
   //  return os;
   //}
-
 };
 

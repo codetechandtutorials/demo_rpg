@@ -1,6 +1,8 @@
 #include "item_manager.h"
 #include "playercharacter.h"
-
+#include "potion.h"
+#include "armor.h"
+#include "weapon.h"
 
 Item* ItemManager::CreateArmor(std::string name, CoreStats cstats, ARMORSLOT slot) {
   Item* temp_item = new Item(new Armor(name, cstats, slot));
@@ -55,8 +57,7 @@ bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
     if (p_char->EquippedArmor[slot_num]) {
       MoveToBackpack(p_char->EquippedArmor[slot_num], p_char);  // move old item to backpack
       p_char->EquippedArmor[slot_num] = item_to_equip;  // equip new item
-    }
-    else {
+    } else {
       p_char->EquippedArmor[slot_num] = item_to_equip;
     }
     return true;
@@ -68,8 +69,7 @@ bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
     if (p_char->EquippedWeapons[slot_num]) {
       MoveToBackpack(p_char->EquippedWeapons[slot_num], p_char);  // move old item to backpack
       p_char->EquippedWeapons[slot_num] = item_to_equip;  // equip new item
-    }
-    else {
+    } else {
       p_char->EquippedWeapons[slot_num] = item_to_equip;
     }
     return true;
