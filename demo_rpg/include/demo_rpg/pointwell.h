@@ -3,54 +3,14 @@
 class PointWell {
 public:
   // returns true if set successfully
-  bool setMax(welltype new_max) {
-    if (new_max < 1)
-      return false;
-
-    MaxWell = new_max;
-
-    if (CurrentFullness > MaxWell)
-      CurrentFullness = MaxWell;
-
-    return true;
-  }
-
-  welltype getMax() {
-    return MaxWell;
-  }
-
-  welltype getCurrent() {
-    return CurrentFullness;
-  }
-
-  bool isFull() { return (CurrentFullness == MaxWell); }
-
-  void reduceCurrent(welltype damage) {
-    if (damage > CurrentFullness) {
-      CurrentFullness = 0;
-      return;
-    }
-
-    CurrentFullness -= damage;
-  }
-
-  void increaseCurrent(welltype amount) {
-    if (amount + CurrentFullness > MaxWell) {
-      CurrentFullness = MaxWell;
-      return;
-    }
-
-    CurrentFullness += amount;
-  }
-
-  PointWell() { CurrentFullness = 1; MaxWell = 1; }
-
-  PointWell(welltype c, welltype m) {
-    CurrentFullness = c;
-    MaxWell = m;
-    if (CurrentFullness > MaxWell)
-      CurrentFullness = MaxWell;
-  }
+  bool setMax(welltype new_max);
+  welltype getMax();
+  welltype getCurrent();
+  bool isFull();
+  void reduceCurrent(welltype damage);
+  void increaseCurrent(welltype amount);
+  PointWell();
+  PointWell(welltype c, welltype m);
 
 private:
   welltype CurrentFullness;
