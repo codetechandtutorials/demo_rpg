@@ -15,20 +15,33 @@ protected:
 
 class Potion final : public ItemDelegate {
 public:
-  Buff* buff;
   welltype HealAmount;
   itemcount Quantity;
 
-  ~Potion() {
+  const Buff* GetBuff() const { return buff; }
+
+  void SetBuff(Buff* new_buff) {
+    if (buff) {
+      delete buff;
+      buff = nullptr;
+    } 
+    buff = new_buff;
+  }
+
+
+private:
+
+  Buff* buff;
+
+  Potion(std::string name, welltype hp_heal = 1u, itemcount quant = 1u, Buff* buf = nullptr)
+    : ItemDelegate(name), buff(buf), HealAmount(hp_heal), Quantity(quant) {
+  }
+
+  ~Potion() {  // only ItemManger can clean this up
     if (buff) {
       delete buff;
       buff = nullptr;
     }
-  }
-
-private:
-  Potion(std::string name, welltype hp_heal = 1u, itemcount quant = 1u, Buff* buf = nullptr)
-    : ItemDelegate(name), buff(buf), HealAmount(hp_heal), Quantity(quant) {
   }
 
   friend class ItemManager;
@@ -53,7 +66,7 @@ private:
   Armor() = delete;
   Armor(const Armor&) = delete;
   Armor(const Armor&&) = delete;
-
+  ~Armor() {}  // only ItemManger can clean this up
   friend class ItemManager;
 
 };
@@ -75,6 +88,8 @@ private:
   Weapon(const Weapon&) = delete;
   Weapon(const Weapon&&) = delete;
 
+  ~Weapon() {}  // only ItemManger can clean this up
+
   friend class ItemManager;
 };
 
@@ -89,7 +104,7 @@ public:
   bool GetMarkedForDeletion() const { return _marked_for_deletion; }
 
 private:
-  ~Item() {
+  ~Item() {   // only ItemManger can clean this up
     if (_data) {
       delete _data;
       _data = nullptr;
