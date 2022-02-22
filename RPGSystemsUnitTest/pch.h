@@ -13,6 +13,10 @@
 #include "demo_rpg/ability.h"
 #include "demo_rpg/buff.h"
 #include "demo_rpg/item.h"
+#include "demo_rpg/potion.h"
+#include "demo_rpg/armor.h"
+#include "demo_rpg/weapon.h"
 #include "demo_rpg/statblock.h"
 #include "demo_rpg/corestats.h"
+#include "demo_rpg/playableclasses_fwd.h"
 #endif //PCH_H
