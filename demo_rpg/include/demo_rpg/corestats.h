@@ -1,11 +1,11 @@
 #pragma once
 #include "types.h"
 struct CoreStats {
-  stattype Strength = 0;
-  stattype Intellect = 0;
-  stattype Agility = 0;
-  stattype Armor = 0;
-  stattype ElementRes = 0;
+  stattype Strength;
+  stattype Intellect;
+  stattype Agility;
+  stattype Armor;
+  stattype ElementRes;
 
   CoreStats() {
     Strength = 0;
@@ -18,6 +18,8 @@ struct CoreStats {
   CoreStats(stattype s, stattype i, stattype ag, stattype arm, stattype eres)
     : Strength(s), Intellect(i), Agility(ag), Armor(arm), ElementRes(eres) {
   }
+
+  CoreStats(stattype all) : Strength(all), Intellect(all), Agility(all), Armor(all), ElementRes(all) {}
 
   CoreStats& operator+=(const CoreStats& rhs) {
     this->Strength += rhs.Strength;

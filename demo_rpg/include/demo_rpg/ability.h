@@ -1,18 +1,35 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include "buff.h"
 
 enum class ABILITYTARGET { SELF, ALLY, ENEMY };
 enum class ABILITYSCALER { NONE, STR, AGI, INT };
 
 struct Ability {
-  Ability(std::string name, uint32_t cost, uint32_t cd, ABILITYTARGET t, uint32_t hpe, ABILITYSCALER s) : 
-    Name(name), Cost(cost), Cooldown(cd), Target(t), HpEffect(hpe), Scaler(s) {}
 
-  std::string Name = "unnamed";
-  uint32_t Cost = 0;  // assume mp if there is a cost
-  uint32_t Cooldown = 1;  // number of rounds you have to wait before using it again
-  ABILITYTARGET Target = ABILITYTARGET::SELF;
-  uint32_t HpEffect = 1;
-  ABILITYSCALER Scaler = ABILITYSCALER::NONE;
+  Ability(std::string name = "unnamed",
+    uint32_t hpe = 1u,
+    Buff* b = nullptr,
+    uint32_t cost = 0u,
+    uint32_t cd = 1u,
+    ABILITYTARGET t = ABILITYTARGET::SELF,
+    ABILITYSCALER s = ABILITYSCALER::NONE) :
+    Name(name), HpEffect(hpe), GivenBuff(b), Cost(cost), Cooldown(cd), Target(t), Scaler(s) {
+  }
+
+  ~Ability() {
+    if (GivenBuff) {
+      delete GivenBuff;
+      GivenBuff = nullptr;
+    }
+  }
+
+  std::string Name;
+  uint32_t HpEffect;
+  Buff* GivenBuff;
+  uint32_t Cost;      // assume mp if there is a cost
+  uint32_t Cooldown;  // number of rounds you have to wait before using it again
+  ABILITYTARGET Target;
+  ABILITYSCALER Scaler;
 };

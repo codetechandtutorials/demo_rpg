@@ -143,8 +143,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ability.cpp" />
+    <ClCompile Include="buff.cpp" />
+    <ClCompile Include="corestats.cpp" />
     <ClCompile Include="item.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="item_manager.cpp" />
+    <ClCompile Include="playercharacter.cpp" />
+    <ClCompile Include="pointwell.cpp" />
+    <ClCompile Include="statblock.cpp" />
+    <ClCompile Include="types.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\demo_rpg\ability.h" />
