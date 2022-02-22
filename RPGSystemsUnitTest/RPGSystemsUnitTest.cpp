@@ -8,7 +8,6 @@ namespace RPGSystemsUnitTest
 {
 TEST_CLASS(RPGSystemsUnitTest) {
 public:
-
   TEST_METHOD(Abilities) {
     {
       Ability default_abil;
@@ -33,7 +32,6 @@ public:
       Assert::AreEqual((int)ABILITYSCALER::STR, (int)constructed_abil.Scaler);
     }
   }
-
   TEST_METHOD(Buffs) {
     {
       Buff a_buff;
@@ -105,32 +103,70 @@ public:
     Assert::AreEqual(4, (int)statsb.Armor);
     Assert::AreEqual(5, (int)statsb.ElementRes);
   }
-
   TEST_METHOD(WeaponItem) {
-    Item* a_magic_weapon 
+    Item* a_magic_weapon
       = ItemManager::CreateWeapon("Magic Weapon", CoreStats(5), WEAPONSLOT::MELEE, 1, 3, false);
     Assert::IsNotNull(a_magic_weapon);
     Assert::IsTrue(ItemManager::IsItemWeapon(a_magic_weapon));
     Assert::IsFalse(ItemManager::IsItemArmor(a_magic_weapon));
     Assert::IsFalse(ItemManager::IsItemPotion(a_magic_weapon));
-    // cast item data to weapon to check if it is a weapon
-    Weapon* weapon = nullptr;
-    ItemManager::CastItemToWeapon(a_magic_weapon, weapon);
-    Assert::IsNotNull(weapon);  // make sure cast doesn't fail
-    Assert::AreEqual(std::string("Magic Weapon"), weapon->Name);
-    Assert::AreEqual(5, (int)weapon->Stats.Strength);
-    Assert::AreEqual(5, (int)weapon->Stats.Intellect);
-    Assert::AreEqual(5, (int)weapon->Stats.Agility);
-    Assert::AreEqual(5, (int)weapon->Stats.Armor);
-    Assert::AreEqual(5, (int)weapon->Stats.ElementRes);
-    Assert::AreEqual((int)WEAPONSLOT::MELEE, (int)weapon->Slot);
-    Assert::AreEqual(1, (int)weapon->MinDamage);
-    Assert::AreEqual(3, (int)weapon->MaxDamage);
-    Assert::IsFalse(weapon->is2H);
+    // const cast check
+    {
+      const Weapon* weapon = dynamic_cast<const Weapon*>(a_magic_weapon->GetData());
+      Assert::IsNotNull(weapon);  // make sure cast doesn't fail
+      Assert::AreEqual(std::string("Magic Weapon"), weapon->Name);
+      Assert::AreEqual(5, (int)weapon->Stats.Strength);
+      Assert::AreEqual(5, (int)weapon->Stats.Intellect);
+      Assert::AreEqual(5, (int)weapon->Stats.Agility);
+      Assert::AreEqual(5, (int)weapon->Stats.Armor);
+      Assert::AreEqual(5, (int)weapon->Stats.ElementRes);
+      Assert::AreEqual((int)WEAPONSLOT::MELEE, (int)weapon->Slot);
+      Assert::AreEqual(1, (int)weapon->MinDamage);
+      Assert::AreEqual(3, (int)weapon->MaxDamage);
+      Assert::IsFalse(weapon->is2H);
+      //delete weapon;  // should have a compiler error
+    }
+
+    // modify weapon test
+    {
+      Weapon* weapon_mod = nullptr;
+      ItemManager::CastItemToWeapon(a_magic_weapon, weapon_mod);
+      Assert::IsNotNull(weapon_mod);  // make sure cast doesn't fail
+      Assert::AreEqual(std::string("Magic Weapon"), weapon_mod->Name);
+      Assert::AreEqual(5, (int)weapon_mod->Stats.Strength);
+      Assert::AreEqual(5, (int)weapon_mod->Stats.Intellect);
+      Assert::AreEqual(5, (int)weapon_mod->Stats.Agility);
+      Assert::AreEqual(5, (int)weapon_mod->Stats.Armor);
+      Assert::AreEqual(5, (int)weapon_mod->Stats.ElementRes);
+      Assert::AreEqual((int)WEAPONSLOT::MELEE, (int)weapon_mod->Slot);
+      Assert::AreEqual(1, (int)weapon_mod->MinDamage);
+      Assert::AreEqual(3, (int)weapon_mod->MaxDamage);
+      Assert::IsFalse(weapon_mod->is2H);
+
+      // change things
+      weapon_mod->Name = "+1 Magic Weapon";
+      weapon_mod->Stats.Strength += 1;
+      weapon_mod->Stats.Intellect += 1;
+      weapon_mod->Stats.Agility += 1;
+      weapon_mod->Stats.Armor += 1;
+      weapon_mod->Stats.ElementRes += 1;
+      weapon_mod->MinDamage += 1;
+      weapon_mod->MaxDamage += 1;
+      Assert::AreEqual(std::string("+1 Magic Weapon"), weapon_mod->Name);
+      Assert::AreEqual(6, (int)weapon_mod->Stats.Strength);
+      Assert::AreEqual(6, (int)weapon_mod->Stats.Intellect);
+      Assert::AreEqual(6, (int)weapon_mod->Stats.Agility);
+      Assert::AreEqual(6, (int)weapon_mod->Stats.Armor);
+      Assert::AreEqual(6, (int)weapon_mod->Stats.ElementRes);
+      Assert::AreEqual((int)WEAPONSLOT::MELEE, (int)weapon_mod->Slot);
+      Assert::AreEqual(2, (int)weapon_mod->MinDamage);
+      Assert::AreEqual(4, (int)weapon_mod->MaxDamage);
+      Assert::IsFalse(weapon_mod->is2H);
+    }
+
     ItemManager::DeleteItem(a_magic_weapon);
     Assert::IsNull(a_magic_weapon);
   }
-
   TEST_METHOD(ArmorItems) {
     Item* armor_item = ItemManager::CreateArmor("SomeArmor", CoreStats(1, 2, 3, 4, 5), ARMORSLOT::HELMET);
     Assert::IsNotNull(armor_item);
@@ -138,35 +174,116 @@ public:
     Assert::IsTrue(ItemManager::IsItemArmor(armor_item));
     Assert::IsFalse(ItemManager::IsItemPotion(armor_item));
 
+    // const casts
+    {
+      const Armor* armor = dynamic_cast<const Armor*>(armor_item->GetData());
+      Assert::IsNotNull(armor);
+      Assert::AreEqual(std::string("SomeArmor"), armor->Name);
+      Assert::AreEqual(1, (int)armor->Stats.Strength);
+      Assert::AreEqual(2, (int)armor->Stats.Intellect);
+      Assert::AreEqual(3, (int)armor->Stats.Agility);
+      Assert::AreEqual(4, (int)armor->Stats.Armor);
+      Assert::AreEqual(5, (int)armor->Stats.ElementRes);
+      Assert::AreEqual((int)ARMORSLOT::HELMET, (int)armor->Slot);
+    }
+
     // mutable casts
-    Armor* armor = nullptr;
-    ItemManager::CastItemToArmor(armor_item, armor);
-    Assert::AreEqual(std::string("SomeArmor"), armor->Name);
-    Assert::AreEqual(1, (int)armor->Stats.Strength);
-    Assert::AreEqual(2, (int)armor->Stats.Intellect);
-    Assert::AreEqual(3, (int)armor->Stats.Agility);
-    Assert::AreEqual(4, (int)armor->Stats.Armor);
-    Assert::AreEqual(5, (int)armor->Stats.ElementRes);
-    Assert::AreEqual((int)ARMORSLOT::HELMET, (int)armor->Slot);
+    {
+      Armor* armor_mod = nullptr;
+      ItemManager::CastItemToArmor(armor_item, armor_mod);
+      Assert::IsNotNull(armor_mod);
+      Assert::AreEqual(std::string("SomeArmor"), armor_mod->Name);
+      Assert::AreEqual(1, (int)armor_mod->Stats.Strength);
+      Assert::AreEqual(2, (int)armor_mod->Stats.Intellect);
+      Assert::AreEqual(3, (int)armor_mod->Stats.Agility);
+      Assert::AreEqual(4, (int)armor_mod->Stats.Armor);
+      Assert::AreEqual(5, (int)armor_mod->Stats.ElementRes);
+      Assert::AreEqual((int)ARMORSLOT::HELMET, (int)armor_mod->Slot);
+
+      // make changes
+      armor_mod->Name = "+1 Scale Armor";
+      armor_mod->Stats.Strength = 2;
+      armor_mod->Stats.Intellect = 2;
+      armor_mod->Stats.Agility = 2;
+      armor_mod->Stats.Armor = 5;
+      armor_mod->Stats.ElementRes = 1;
+      armor_mod->Slot = ARMORSLOT::CHEST;
+
+      Assert::AreEqual(std::string("+1 Scale Armor"), armor_mod->Name);
+      Assert::AreEqual(2, (int)armor_mod->Stats.Strength);
+      Assert::AreEqual(2, (int)armor_mod->Stats.Intellect);
+      Assert::AreEqual(2, (int)armor_mod->Stats.Agility);
+      Assert::AreEqual(5, (int)armor_mod->Stats.Armor);
+      Assert::AreEqual(1, (int)armor_mod->Stats.ElementRes);
+      Assert::AreEqual((int)ARMORSLOT::CHEST, (int)armor_mod->Slot);
+    }
     ItemManager::DeleteItem(armor_item);
     Assert::IsNull(armor_item);
   }
-
   TEST_METHOD(PotionItems) {
     Item* random_potion = ItemManager::CreatePotion("Random Potion", 3, 4, nullptr);
     Assert::IsNotNull(random_potion);
     Assert::IsFalse(ItemManager::IsItemWeapon(random_potion));
     Assert::IsFalse(ItemManager::IsItemArmor(random_potion));
     Assert::IsTrue(ItemManager::IsItemPotion(random_potion));
-    Potion* potion = nullptr;
-    ItemManager::CastItemToPotion(random_potion, potion);
-    Assert::AreEqual(std::string("Random Potion"), potion->Name);
-    Assert::AreEqual(3, (int)potion->HealAmount);
-    Assert::AreEqual(4, (int)potion->Quantity);
+
+    // const cast
+    {
+      const Potion* const_potion = dynamic_cast<const Potion*>(random_potion->GetData());
+      Assert::AreEqual(std::string("Random Potion"), const_potion->Name);
+      Assert::AreEqual(3, (int)const_potion->HealAmount);
+      Assert::AreEqual(4, (int)const_potion->Quantity);
+      Assert::IsNull(const_potion->GetBuff());
+    }
+
+    // modify potion
+    {
+      Potion* potion = nullptr;
+      ItemManager::CastItemToPotion(random_potion, potion);
+      Assert::AreEqual(std::string("Random Potion"), potion->Name);
+      Assert::AreEqual(3, (int)potion->HealAmount);
+      Assert::AreEqual(4, (int)potion->Quantity);
+
+      // modify
+      potion->Name = "Super Potion";
+      potion->HealAmount = 10;
+      potion->Quantity = 1;
+      potion->SetBuff(new Buff("RAWR!", CoreStats(5), 5, false));
+      Assert::IsNotNull(potion->GetBuff());
+      Assert::AreEqual(std::string("Super Potion"), potion->Name);
+      Assert::AreEqual(10, (int)potion->HealAmount);
+      Assert::AreEqual(1, (int)potion->Quantity);
+      Assert::AreEqual(5, (int)potion->GetBuff()->Duration);
+      Assert::AreEqual(std::string("RAWR!"), potion->GetBuff()->Name);
+      Assert::AreEqual(5, (int)potion->GetBuff()->BuffedStats.Strength);
+      Assert::AreEqual(5, (int)potion->GetBuff()->BuffedStats.Intellect);
+      Assert::AreEqual(5, (int)potion->GetBuff()->BuffedStats.Agility);
+      Assert::AreEqual(5, (int)potion->GetBuff()->BuffedStats.Armor);
+      Assert::AreEqual(5, (int)potion->GetBuff()->BuffedStats.ElementRes);
+      Assert::IsFalse(potion->GetBuff()->isDebuff);
+
+      // modify to Poison Potion
+      potion->Name = "Poison Potion";
+      potion->HealAmount = 0;
+      potion->Quantity = 1;
+      potion->SetBuff(new Buff("Poisoned", CoreStats(2), 3, true));  // -2 to all stats for 3 rounds
+      Assert::IsNotNull(potion->GetBuff());
+      Assert::AreEqual(std::string("Poison Potion"), potion->Name);
+      Assert::AreEqual(0, (int)potion->HealAmount);
+      Assert::AreEqual(1, (int)potion->Quantity);
+      Assert::AreEqual(3, (int)potion->GetBuff()->Duration);
+      Assert::AreEqual(std::string("Poisoned"), potion->GetBuff()->Name);
+      Assert::AreEqual(2, (int)potion->GetBuff()->BuffedStats.Strength);
+      Assert::AreEqual(2, (int)potion->GetBuff()->BuffedStats.Intellect);
+      Assert::AreEqual(2, (int)potion->GetBuff()->BuffedStats.Agility);
+      Assert::AreEqual(2, (int)potion->GetBuff()->BuffedStats.Armor);
+      Assert::AreEqual(2, (int)potion->GetBuff()->BuffedStats.ElementRes);
+      Assert::IsTrue(potion->GetBuff()->isDebuff);
+    }
+
     ItemManager::DeleteItem(random_potion);
     Assert::IsNull(random_potion);
   }
-
   TEST_METHOD(WarriorClass) {
     PlayerCharacter p1(new Warrior());
     Assert::AreEqual((int)Warrior::BASEHP, (int)p1.getMaxHP());
@@ -175,7 +292,6 @@ public:
     Assert::AreEqual(2, (int)p1.getLevel());
     Assert::AreEqual(std::string("PowerAttack"), p1.getAbilityList().front().Name);
     Assert::AreEqual((int)(Warrior::BASEHP + (Warrior::BASEHP / 2.f)), (int)p1.getMaxHP());
-
   }
 
   TEST_METHOD(Equip) {
