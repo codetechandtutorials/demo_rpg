@@ -11,8 +11,6 @@
 #include <vector>
 #include <algorithm>
 
-class ItemManager;
-
 #define PCCONSTRUCT \
 HP->setMax(BASEHP);\
 HP->increaseCurrent(BASEHP);\
@@ -240,6 +238,7 @@ public:
     else
       return 0;
   }
+  const bool IsMaxHealth() const { return (pcclass->HP->getCurrent() == pcclass->HP->getMax()); }
   const welltype getMaxMP() const {
     if (pcclass->MP)
       return pcclass->MP->getMax();
