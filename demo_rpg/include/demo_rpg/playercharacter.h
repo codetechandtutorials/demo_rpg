@@ -196,7 +196,7 @@ private:
     const auto to_remove = std::stable_partition(Backpack.begin(), Backpack.end(),
       [](const Item* i) -> bool { return !i->GetMarkedForDeletion(); }
     );
-    std::for_each(to_remove, Backpack.end(), [](Item* i) { delete i; });
+    std::for_each(to_remove, Backpack.end(), [](Item*& i) { ItemManager::DeleteItem(i); });
     Backpack.erase(to_remove, Backpack.end());
   }
   friend class ItemManager;
@@ -217,14 +217,12 @@ public:
     auto i = 0;
     for (i = 0; i < (unsigned long long)ARMORSLOT::NUM_SLOTS; i++) {
       if (EquippedArmor[i]) {
-        delete EquippedArmor[i];
-        EquippedArmor[i] = nullptr;
+        ItemManager::DeleteItem(EquippedArmor[i]);
       }
     }
     for (i = 0; i < (unsigned long long)WEAPONSLOT::NUM_SLOTS; i++) {
       if (EquippedWeapons[i]) {
-        delete EquippedWeapons[i];
-        EquippedWeapons[i] = nullptr;
+        ItemManager::DeleteItem(EquippedWeapons[i]);
       }
     }
   }

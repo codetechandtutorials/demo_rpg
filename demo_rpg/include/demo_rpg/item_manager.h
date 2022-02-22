@@ -56,4 +56,5 @@ public:
 
   static bool MoveToBackpack(Item* item_to_move, PlayerCharacter* p_char);
 
+  static void DeleteItem(Item*& item_to_delete/*, std::vector<Item*>& pack_to_delete_from*/);
 };

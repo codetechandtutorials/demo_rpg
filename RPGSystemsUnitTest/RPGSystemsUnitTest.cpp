@@ -107,7 +107,8 @@ public:
   }
 
   TEST_METHOD(WeaponItem) {
-    Item* a_magic_weapon = ItemManager::CreateWeapon("Magic Weapon", CoreStats(5), WEAPONSLOT::MELEE, 1, 3, false);
+    Item* a_magic_weapon 
+      = ItemManager::CreateWeapon("Magic Weapon", CoreStats(5), WEAPONSLOT::MELEE, 1, 3, false);
     Assert::IsNotNull(a_magic_weapon);
     Assert::IsTrue(ItemManager::IsItemWeapon(a_magic_weapon));
     Assert::IsFalse(ItemManager::IsItemArmor(a_magic_weapon));
@@ -126,11 +127,8 @@ public:
     Assert::AreEqual(1, (int)weapon->MinDamage);
     Assert::AreEqual(3, (int)weapon->MaxDamage);
     Assert::IsFalse(weapon->is2H);
-    delete a_magic_weapon;
-    a_magic_weapon = nullptr;
+    ItemManager::DeleteItem(a_magic_weapon);
     Assert::IsNull(a_magic_weapon);
-    weapon = nullptr;
-    Assert::IsNull(weapon);
   }
 
   TEST_METHOD(ArmorItems) {
@@ -140,6 +138,7 @@ public:
     Assert::IsTrue(ItemManager::IsItemArmor(armor_item));
     Assert::IsFalse(ItemManager::IsItemPotion(armor_item));
 
+    // mutable casts
     Armor* armor = nullptr;
     ItemManager::CastItemToArmor(armor_item, armor);
     Assert::AreEqual(std::string("SomeArmor"), armor->Name);
@@ -149,14 +148,8 @@ public:
     Assert::AreEqual(4, (int)armor->Stats.Armor);
     Assert::AreEqual(5, (int)armor->Stats.ElementRes);
     Assert::AreEqual((int)ARMORSLOT::HELMET, (int)armor->Slot);
-
-    delete armor_item;
-    armor_item = nullptr;
+    ItemManager::DeleteItem(armor_item);
     Assert::IsNull(armor_item);
-
-    armor = nullptr;
-    Assert::IsNull(armor);
-
   }
 
   TEST_METHOD(PotionItems) {
@@ -170,11 +163,8 @@ public:
     Assert::AreEqual(std::string("Random Potion"), potion->Name);
     Assert::AreEqual(3, (int)potion->HealAmount);
     Assert::AreEqual(4, (int)potion->Quantity);
-    delete random_potion;
-    random_potion = nullptr;
+    ItemManager::DeleteItem(random_potion);
     Assert::IsNull(random_potion);
-    potion = nullptr;
-    Assert::IsNull(potion);
   }
 
   TEST_METHOD(WarriorClass) {

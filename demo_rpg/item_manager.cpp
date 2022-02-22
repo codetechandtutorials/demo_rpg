@@ -91,3 +91,9 @@ bool ItemManager::MoveToBackpack(Item* item_to_move, PlayerCharacter* p_char) {
   p_char->Backpack.push_back(item_to_move);
   return true;
 }
+
+
+void ItemManager::DeleteItem(Item*& item_to_delete/*, std::vector<Item*>& pack_to_delete_from*/) {
+  delete item_to_delete;
+  item_to_delete = nullptr;
+}

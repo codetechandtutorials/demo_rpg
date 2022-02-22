@@ -83,18 +83,18 @@ private:
 
 //#include <iostream>  // for testing
 // use this one in your runtime code
-class Item {
+class Item final {
 public:
   const ItemDelegate* GetData() { return _data; }
   bool GetMarkedForDeletion() const { return _marked_for_deletion; }
 
+private:
   ~Item() {
     if (_data) {
       delete _data;
       _data = nullptr;
     }
   }
-private:
   ItemDelegate* _data;
   bool _marked_for_deletion = false;
   Item(ItemDelegate* item) : _data(item) {}
