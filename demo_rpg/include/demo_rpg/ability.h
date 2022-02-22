@@ -14,16 +14,9 @@ struct Ability {
     uint32_t cost = 0u,
     uint32_t cd = 1u,
     ABILITYTARGET t = ABILITYTARGET::SELF,
-    ABILITYSCALER s = ABILITYSCALER::NONE) :
-    Name(name), HpEffect(hpe), GivenBuff(b), Cost(cost), Cooldown(cd), Target(t), Scaler(s) {
-  }
+    ABILITYSCALER s = ABILITYSCALER::NONE);
 
-  ~Ability() {
-    if (GivenBuff) {
-      delete GivenBuff;
-      GivenBuff = nullptr;
-    }
-  }
+  ~Ability();
 
   std::string Name;
   uint32_t HpEffect;
