@@ -8,5 +8,11 @@
 #define PCH_H
 
 // add headers that you want to pre-compile here
-
+#include "demo_rpg/playercharacter.h"
+#include "demo_rpg/item_manager.h"
+#include "demo_rpg/ability.h"
+#include "demo_rpg/buff.h"
+#include "demo_rpg/item.h"
+#include "demo_rpg/statblock.h"
+#include "demo_rpg/corestats.h"
 #endif //PCH_H
