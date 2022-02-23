@@ -1,4 +1,4 @@
 #include "armor.h"
 
 Armor::Armor(std::string name, CoreStats cstats, ARMORSLOT slot) : EquipmentDelegate(name, cstats), Slot(slot) {}
-Armor::~Armor() {}  // only ItemManger can clean this up
+Armor::~Armor() {}

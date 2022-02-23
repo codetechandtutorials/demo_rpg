@@ -18,4 +18,5 @@
 #include "demo_rpg/weapon.h"
 #include "demo_rpg/statblock.h"
 #include "demo_rpg/corestats.h"
+#include "demo_rpg/playableclasses_fwd.h"
 #endif //PCH_H

@@ -147,6 +147,10 @@
     <ClCompile Include="buff.cpp" />
     <ClCompile Include="corestats.cpp" />
     <ClCompile Include="armor.cpp" />
+    <ClCompile Include="cleric.cpp" />
+    <ClCompile Include="wizard.cpp" />
+    <ClCompile Include="warrior.cpp" />
+    <ClCompile Include="rogue.cpp" />
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="potion.cpp" />
     <ClCompile Include="item.cpp" />
@@ -160,9 +164,15 @@
     <ClInclude Include="include\demo_rpg\ability.h" />
     <ClInclude Include="include\demo_rpg\armor.h" />
     <ClInclude Include="include\demo_rpg\buff.h" />
+    <ClInclude Include="include\demo_rpg\cleric.h" />
     <ClInclude Include="include\demo_rpg\corestats.h" />
+    <ClInclude Include="include\demo_rpg\playableclasses_fwd.h" />
+    <ClInclude Include="include\demo_rpg\rogue.h" />
+    <ClInclude Include="include\demo_rpg\warrior.h" />
+    <ClInclude Include="include\demo_rpg\wizard.h" />
     <ClInclude Include="include\demo_rpg\item.h" />
     <ClInclude Include="include\demo_rpg\item_manager.h" />
+    <ClInclude Include="pc_macros.h" />
     <ClInclude Include="include\demo_rpg\pointwell.h" />
     <ClInclude Include="include\demo_rpg\playercharacter.h" />
     <ClInclude Include="include\demo_rpg\potion.h" />

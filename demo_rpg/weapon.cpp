@@ -4,4 +4,4 @@ Weapon::Weapon(std::string name, CoreStats cstats, WEAPONSLOT slot, damagetype m
   : EquipmentDelegate(name, cstats), Slot(slot), MinDamage(min), MaxDamage(max), is2H(twohanded) {
 }
 
-Weapon::~Weapon() {}  // only ItemManger can clean this up
+Weapon::~Weapon() {}
