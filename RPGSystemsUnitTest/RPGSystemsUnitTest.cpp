@@ -8,7 +8,7 @@ namespace RPGSystemsUnitTest
 {
 TEST_CLASS(RPGSystemsUnitTest) {
 public:
-  TEST_METHOD(Abilities) {
+  TEST_METHOD(Core_Abilities) {
     {
       Ability default_abil;
       Assert::AreEqual(std::string("unnamed"), default_abil.Name);
@@ -32,7 +32,7 @@ public:
       Assert::AreEqual((int)ABILITYSCALER::STR, (int)constructed_abil.Scaler);
     }
   }
-  TEST_METHOD(Buffs) {
+  TEST_METHOD(Core_Buffs) {
     {
       Buff a_buff;
       Assert::AreEqual(std::string("undefined"), a_buff.Name);
@@ -65,7 +65,7 @@ public:
       Assert::IsTrue(b_buff.isDebuff);
     }
   }
-  TEST_METHOD(Stats) {
+  TEST_METHOD(Core_Stats) {
     CoreStats stats_default;
     Assert::AreEqual(0, (int)stats_default.Strength);
     Assert::AreEqual(0, (int)stats_default.Intellect);
@@ -103,7 +103,7 @@ public:
     Assert::AreEqual(4, (int)statsb.Armor);
     Assert::AreEqual(5, (int)statsb.ElementRes);
   }
-  TEST_METHOD(WeaponItem) {
+  TEST_METHOD(Item_Weapons) {
     Item* a_magic_weapon
       = ItemManager::CreateWeapon("Magic Weapon", CoreStats(5), WEAPONSLOT::MELEE, 1, 3, false);
     Assert::IsNotNull(a_magic_weapon);
@@ -167,7 +167,7 @@ public:
     ItemManager::DeleteItem(a_magic_weapon);
     Assert::IsNull(a_magic_weapon);
   }
-  TEST_METHOD(ArmorItems) {
+  TEST_METHOD(Item_Armor) {
     Item* armor_item = ItemManager::CreateArmor("SomeArmor", CoreStats(1, 2, 3, 4, 5), ARMORSLOT::HELMET);
     Assert::IsNotNull(armor_item);
     Assert::IsFalse(ItemManager::IsItemWeapon(armor_item));
@@ -220,7 +220,7 @@ public:
     ItemManager::DeleteItem(armor_item);
     Assert::IsNull(armor_item);
   }
-  TEST_METHOD(PotionItems) {
+  TEST_METHOD(Item_Potion) {
     Item* random_potion = ItemManager::CreatePotion("Random Potion", 3, 4, nullptr);
     Assert::IsNotNull(random_potion);
     Assert::IsFalse(ItemManager::IsItemWeapon(random_potion));
@@ -284,16 +284,55 @@ public:
     ItemManager::DeleteItem(random_potion);
     Assert::IsNull(random_potion);
   }
-  TEST_METHOD(WarriorClass) {
+
+  TEST_METHOD(PlayerCleric) {
+    PlayerCharacter p1(new Cleric());
+    Assert::AreEqual((int)Cleric::BASEHP, (int)p1.getMaxHP());
+    Assert::AreEqual((int)Cleric::BASEMP, (int)p1.getMaxMP());
+    Assert::AreEqual(std::string("Heal"), p1.getAbilityList().front().Name);
+
+    p1.gainEXP(100u);
+    // level 2
+    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(std::string("Smite"), p1.getAbilityList()[1].Name);
+    Assert::AreEqual((int)(Cleric::BASEHP + (Cleric::BASEHP / 2.f)), (int)p1.getMaxHP());
+    Assert::AreEqual((int)(Cleric::BASEMP + (Cleric::BASEMP / 2.f)), (int)p1.getMaxMP());
+  }
+
+  TEST_METHOD(PlayerRogue) {
+    PlayerCharacter p1(new Rogue());
+    Assert::AreEqual((int)Rogue::BASEHP, (int)p1.getMaxHP());
+
+    p1.gainEXP(100u);
+    // level 2
+    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(std::string("PreciseAttack"), p1.getAbilityList().front().Name);
+    Assert::AreEqual((int)(Rogue::BASEHP + (Rogue::BASEHP / 2.f)), (int)p1.getMaxHP());
+  }
+  TEST_METHOD(PlayerWarrior) {
     PlayerCharacter p1(new Warrior());
     Assert::AreEqual((int)Warrior::BASEHP, (int)p1.getMaxHP());
 
     p1.gainEXP(100u);
+    // level 2
     Assert::AreEqual(2, (int)p1.getLevel());
     Assert::AreEqual(std::string("PowerAttack"), p1.getAbilityList().front().Name);
     Assert::AreEqual((int)(Warrior::BASEHP + (Warrior::BASEHP / 2.f)), (int)p1.getMaxHP());
   }
 
+  TEST_METHOD(PlayerWizard) {
+    PlayerCharacter p1(new Wizard());
+    Assert::AreEqual((int)Wizard::BASEHP, (int)p1.getMaxHP());
+    Assert::AreEqual((int)Wizard::BASEMP, (int)p1.getMaxMP());
+    Assert::AreEqual(std::string("Firebolt"), p1.getAbilityList().front().Name);
+
+    p1.gainEXP(100u);
+    // level 2
+    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(std::string("IceBolt"), p1.getAbilityList()[1].Name);
+    Assert::AreEqual((int)(Wizard::BASEHP + (Wizard::BASEHP / 2.f)), (int)p1.getMaxHP());
+    Assert::AreEqual((int)(Wizard::BASEMP + (Wizard::BASEMP / 2.f)), (int)p1.getMaxMP());
+  }
   TEST_METHOD(Equip) {
     PlayerCharacter rogue(new Rogue());
     Assert::IsTrue(ItemManager::Equip(

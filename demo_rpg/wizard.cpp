@@ -10,10 +10,6 @@ void Wizard::level_up() {
   LEVELUP
     if (CurrentLevel == 2) {
       Abilities.emplace_back("IceBolt", 6u, nullptr, 3u, 1u, ABILITYTARGET::ENEMY, ABILITYSCALER::INT);
-
-      MP->setMax(1u + MP->getMax());
-      MP->increaseCurrent(1u);
-
       increaseStats(0, 1);
     }
 }

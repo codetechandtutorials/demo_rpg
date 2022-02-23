@@ -86,6 +86,7 @@ PlayerCharacter::~PlayerCharacter() {
 const leveltype PlayerCharacter::getLevel() const { return pcclass->getLevel(); }
 const exptype PlayerCharacter::getCurrentEXP() const { return pcclass->getCurrentEXP(); }
 const exptype PlayerCharacter::getEXPToNextLevel() const { return pcclass->getEXPToNextLevel(); }
+const bool PlayerCharacter::IsMaxHealth() const { return pcclass->HP->isFull(); }
 const welltype PlayerCharacter::getCurrentHP() const { return pcclass->HP->getCurrent(); }
 const welltype PlayerCharacter::getMaxHP() const { return pcclass->HP->getMax(); }
 const welltype PlayerCharacter::getCurrentMP() const {
@@ -94,7 +95,6 @@ const welltype PlayerCharacter::getCurrentMP() const {
   else
     return 0;
 }
-const bool PlayerCharacter::IsMaxHealth() const { return pcclass->HP->isFull(); }
 const welltype PlayerCharacter::getMaxMP() const {
   if (pcclass->MP)
     return pcclass->MP->getMax();

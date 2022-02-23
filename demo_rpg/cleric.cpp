@@ -4,7 +4,6 @@
 Cleric::Cleric() : PlayerCharacterDelegate() {
   MP = std::make_unique<PointWell>(BASEMP, BASEMP);  // be sure to init before PCCONSTRUCT MACRO
   PCCONSTRUCT
-
     Abilities.emplace_back("Heal", 2u, nullptr, 2u, 1u, ABILITYTARGET::ALLY, ABILITYSCALER::INT);
 }
 
