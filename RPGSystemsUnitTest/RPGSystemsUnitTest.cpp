@@ -286,49 +286,49 @@ public:
   }
   TEST_METHOD(Player_Cleric) {
     PlayerCharacter p1(new Cleric());
-    Assert::AreEqual((int)Cleric::BASEHP, (int)p1.getMaxHP());
-    Assert::AreEqual((int)Cleric::BASEMP, (int)p1.getMaxMP());
-    Assert::AreEqual(std::string("Heal"), p1.getAbilityList().front().Name);
+    Assert::AreEqual((int)Cleric::BASEHP, (int)p1.GetMaxHP());
+    Assert::AreEqual((int)Cleric::BASEMP, (int)p1.GetMaxMP());
+    Assert::AreEqual(std::string("Heal"), p1.GetAbilityList().front().Name);
 
-    p1.gainEXP(100u);
+    p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("Smite"), p1.getAbilityList()[1].Name);
-    Assert::AreEqual((int)(Cleric::BASEHP + (Cleric::BASEHP / 2.f)), (int)p1.getMaxHP());
-    Assert::AreEqual((int)(Cleric::BASEMP + (Cleric::BASEMP / 2.f)), (int)p1.getMaxMP());
+    Assert::AreEqual(std::string("Smite"), p1.GetAbilityList()[1].Name);
+    Assert::AreEqual((int)(Cleric::BASEHP + (Cleric::BASEHP / 2.f)), (int)p1.GetMaxHP());
+    Assert::AreEqual((int)(Cleric::BASEMP + (Cleric::BASEMP / 2.f)), (int)p1.GetMaxMP());
   }
   TEST_METHOD(Player_Rogue) {
     PlayerCharacter p1(new Rogue());
-    Assert::AreEqual((int)Rogue::BASEHP, (int)p1.getMaxHP());
+    Assert::AreEqual((int)Rogue::BASEHP, (int)p1.GetMaxHP());
 
-    p1.gainEXP(100u);
+    p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("PreciseAttack"), p1.getAbilityList().front().Name);
-    Assert::AreEqual((int)(Rogue::BASEHP + (Rogue::BASEHP / 2.f)), (int)p1.getMaxHP());
+    Assert::AreEqual(std::string("PreciseAttack"), p1.GetAbilityList().front().Name);
+    Assert::AreEqual((int)(Rogue::BASEHP + (Rogue::BASEHP / 2.f)), (int)p1.GetMaxHP());
   }
   TEST_METHOD(Player_Warrior) {
     PlayerCharacter p1(new Warrior());
-    Assert::AreEqual((int)Warrior::BASEHP, (int)p1.getMaxHP());
+    Assert::AreEqual((int)Warrior::BASEHP, (int)p1.GetMaxHP());
 
-    p1.gainEXP(100u);
+    p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("PowerAttack"), p1.getAbilityList().front().Name);
-    Assert::AreEqual((int)(Warrior::BASEHP + (Warrior::BASEHP / 2.f)), (int)p1.getMaxHP());
+    Assert::AreEqual(std::string("PowerAttack"), p1.GetAbilityList().front().Name);
+    Assert::AreEqual((int)(Warrior::BASEHP + (Warrior::BASEHP / 2.f)), (int)p1.GetMaxHP());
   }
   TEST_METHOD(Player_Wizard) {
     PlayerCharacter p1(new Wizard());
-    Assert::AreEqual((int)Wizard::BASEHP, (int)p1.getMaxHP());
-    Assert::AreEqual((int)Wizard::BASEMP, (int)p1.getMaxMP());
-    Assert::AreEqual(std::string("Firebolt"), p1.getAbilityList().front().Name);
+    Assert::AreEqual((int)Wizard::BASEHP, (int)p1.GetMaxHP());
+    Assert::AreEqual((int)Wizard::BASEMP, (int)p1.GetMaxMP());
+    Assert::AreEqual(std::string("Firebolt"), p1.GetAbilityList().front().Name);
 
-    p1.gainEXP(100u);
+    p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("IceBolt"), p1.getAbilityList()[1].Name);
-    Assert::AreEqual((int)(Wizard::BASEHP + (Wizard::BASEHP / 2.f)), (int)p1.getMaxHP());
-    Assert::AreEqual((int)(Wizard::BASEMP + (Wizard::BASEMP / 2.f)), (int)p1.getMaxMP());
+    Assert::AreEqual(std::string("IceBolt"), p1.GetAbilityList()[1].Name);
+    Assert::AreEqual((int)(Wizard::BASEHP + (Wizard::BASEHP / 2.f)), (int)p1.GetMaxHP());
+    Assert::AreEqual((int)(Wizard::BASEMP + (Wizard::BASEMP / 2.f)), (int)p1.GetMaxMP());
   }
   TEST_METHOD(Equip_Player) {
     // a player to equip
@@ -347,21 +347,21 @@ public:
     Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Necklace", CoreStats(0,0,0,1,1), ARMORSLOT::NECK), &rogue));
 
     // check slots
-    Assert::IsNotNull(rogue.getEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE));
-    Assert::IsNotNull(rogue.getEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::FEET));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::RING1));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::RING2));
-    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::NECK));
+    Assert::IsNotNull(rogue.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE));
+    Assert::IsNotNull(rogue.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2));
+    Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK));
 
     // equipping a potion should fail and go into inventory
     Assert::IsFalse(ItemManager::Equip(ItemManager::CreatePotion("ArmorPot", 0, 1, new Buff("ArmorBuff", CoreStats(0, 0, 0, 3, 0), 5)), &rogue));
 
-    auto backpack = rogue.getBackpackList();
+    auto backpack = rogue.GetBackpackList();
     Assert::AreEqual(1, (int)backpack.size());
 
   }
