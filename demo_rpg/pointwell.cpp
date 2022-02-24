@@ -2,44 +2,44 @@
 
 
 [[nodiscard]] const welltype PointWell::GetMax() const noexcept {
-  return _max_well;
+  return _max;
 }
 [[nodiscard]] const welltype PointWell::GetCurrent() const noexcept {
-  return _current_fullness;
+  return _current;
 }
-[[nodiscard]] const bool PointWell::IsFull() const noexcept { return (_current_fullness == _max_well); }
+[[nodiscard]] const bool PointWell::IsFull() const noexcept { return (_current == _max); }
 
 void PointWell::SetMax(welltype new_max) noexcept {
   if (new_max < 1)
-    _max_well = 1;
+    _max = 1;
   else
-    _max_well = new_max;
+    _max = new_max;
 
-  if (_current_fullness > _max_well)
-    _current_fullness = _max_well;
+  if (_current > _max)
+    _current = _max;
 }
 void PointWell::ReduceCurrent(welltype damage) noexcept {
-  if (damage > _current_fullness) {
-    _current_fullness = 0;
+  if (damage > _current) {
+    _current = 0;
     return;
   }
 
-  _current_fullness -= damage;
+  _current -= damage;
 }
 void PointWell::IncreaseCurrent(welltype amount) noexcept {
-  if (amount + _current_fullness > _max_well) {
-    _current_fullness = _max_well;
+  if (amount + _current > _max) {
+    _current = _max;
     return;
   }
 
-  _current_fullness += amount;
+  _current += amount;
 }
 
-PointWell::PointWell() { _current_fullness = 1; _max_well = 1; }
+PointWell::PointWell() { _current = 1; _max = 1; }
 
 PointWell::PointWell(welltype c, welltype m) {
-  _current_fullness = c;
-  _max_well = m;
-  if (_current_fullness > _max_well)
-    _current_fullness = _max_well;
+  _current = c;
+  _max = m;
+  if (_current > _max)
+    _current = _max;
 }

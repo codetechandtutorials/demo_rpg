@@ -9,6 +9,7 @@
   return temp_item;
 }
 void ItemManager::CastItemToArmor(const Item* in, Armor*& out) {
+  if (!in) return;
   out = dynamic_cast<Armor*>(in->_data);
 }
 bool ItemManager::IsItemArmor(const Item* in) {
@@ -23,6 +24,7 @@ bool ItemManager::IsItemArmor(const Item* in) {
   return temp_item;
 }
 void ItemManager::CastItemToWeapon(const Item* in, Weapon*& out) {
+  if (!in) return;
   out = dynamic_cast<Weapon*>(in->_data);
 }
 bool ItemManager::IsItemWeapon(const Item* in) {
@@ -37,6 +39,7 @@ bool ItemManager::IsItemWeapon(const Item* in) {
   return temp_item;
 }
 void ItemManager::CastItemToPotion(const Item* in, Potion*& out) {
+  if (!in) return;
   out = dynamic_cast<Potion*>(in->_data);
 }
 bool ItemManager::IsItemPotion(const Item* in) {

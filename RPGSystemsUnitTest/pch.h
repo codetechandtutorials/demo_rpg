@@ -19,4 +19,5 @@
 #include "demo_rpg/statblock.h"
 #include "demo_rpg/corestats.h"
 #include "demo_rpg/playableclasses_fwd.h"
+#include "demo_rpg/monster.h"
 #endif //PCH_H

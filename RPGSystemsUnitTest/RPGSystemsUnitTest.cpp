@@ -366,5 +366,34 @@ public:
 
   }
 
+  TEST_METHOD(Enemy_Monster) {
+    Monster monster1(10, 2, 4);
+    Assert::AreEqual(10, (int)monster1.HP.GetMax());
+    Assert::AreEqual(2, (int)monster1.GetMinDamage());
+    Assert::AreEqual(4, (int)monster1.GetMaxDamage());
+    
+    int damage_rando = 0;
+    for (int i = 0; i < 10; ++i) {
+      damage_rando = monster1.Attack();
+      Assert::IsTrue((damage_rando >= (int)monster1.GetMinDamage()));
+      Assert::IsTrue((damage_rando <= (int)monster1.GetMaxDamage()));
+    }
+
+  }
+
+  TEST_METHOD(Simple_Battle) {
+    PlayerCharacter rogue(new Rogue());
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateWeapon("Dagger", CoreStats(), WEAPONSLOT::MELEE, 1, 3, false), &rogue));
+
+    Monster monster1(10, 2, 4);
+
+    while (monster1.HP.GetCurrent() > 0 && rogue.GetCurrentHP() > 0) {
+      monster1.HP.ReduceCurrent(rogue.MeleeAttack());
+      rogue.TakeDamage(monster1.Attack());
+    }
+
+    Assert::IsTrue((monster1.HP.GetCurrent() == 0) || (rogue.GetCurrentHP() == 0));
+
+  }
 };
 }

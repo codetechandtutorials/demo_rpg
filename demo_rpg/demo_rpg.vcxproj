@@ -148,6 +148,8 @@
     <ClCompile Include="corestats.cpp" />
     <ClCompile Include="armor.cpp" />
     <ClCompile Include="cleric.cpp" />
+    <ClCompile Include="monster.cpp" />
+    <ClCompile Include="random.cpp" />
     <ClCompile Include="wizard.cpp" />
     <ClCompile Include="warrior.cpp" />
     <ClCompile Include="rogue.cpp" />
@@ -167,11 +169,13 @@
     <ClInclude Include="include\demo_rpg\cleric.h" />
     <ClInclude Include="include\demo_rpg\corestats.h" />
     <ClInclude Include="include\demo_rpg\playableclasses_fwd.h" />
+    <ClInclude Include="include\demo_rpg\random.h" />
     <ClInclude Include="include\demo_rpg\rogue.h" />
     <ClInclude Include="include\demo_rpg\warrior.h" />
     <ClInclude Include="include\demo_rpg\wizard.h" />
     <ClInclude Include="include\demo_rpg\item.h" />
     <ClInclude Include="include\demo_rpg\item_manager.h" />
+    <ClInclude Include="include\demo_rpg\monster.h" />
     <ClInclude Include="pc_macros.h" />
     <ClInclude Include="include\demo_rpg\pointwell.h" />
     <ClInclude Include="include\demo_rpg\playercharacter.h" />

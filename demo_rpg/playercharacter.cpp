@@ -1,4 +1,5 @@
 #include "playercharacter.h"
+#include "random.h"
 #include <memory>
 
 PlayerCharacterDelegate::~PlayerCharacterDelegate() {}
@@ -15,19 +16,19 @@ PlayerCharacterDelegate::PlayerCharacterDelegate() : StatBlock(0u, 0u) {
   _exp_to_next_level = LEVEL2AT;
 }
 
-[[nodiscard]] leveltype PlayerCharacterDelegate::GetLevel() const noexcept {
+leveltype PlayerCharacterDelegate::GetLevel() const noexcept {
   return _current_level;
 }
 
-[[nodiscard]] exptype PlayerCharacterDelegate::GetCurrentEXP() const noexcept {
+exptype PlayerCharacterDelegate::GetCurrentEXP() const noexcept {
   return _current_exp;
 }
 
-[[nodiscard]] exptype PlayerCharacterDelegate::GetEXPToNextLevel() const noexcept {
+exptype PlayerCharacterDelegate::GetEXPToNextLevel() const noexcept {
   return _exp_to_next_level;
 }
 
-[[nodiscard]] const bool PlayerCharacterDelegate::check_if_leveled() noexcept {
+const bool PlayerCharacterDelegate::check_if_leveled() noexcept {
   static const leveltype LEVELSCALAR = 2u;
   if (_current_exp >= _exp_to_next_level) {
     _current_level++;
@@ -77,30 +78,30 @@ PlayerCharacter::~PlayerCharacter() {
 }
 
 // Getters
-[[nodiscard]] const leveltype PlayerCharacter::GetLevel() const noexcept { return _player_class->GetLevel(); }
-[[nodiscard]] const exptype PlayerCharacter::GetCurrentEXP() const noexcept { return _player_class->GetCurrentEXP(); }
-[[nodiscard]] const exptype PlayerCharacter::GetEXPToNextLevel() const noexcept { return _player_class->GetEXPToNextLevel(); }
-[[nodiscard]] const bool PlayerCharacter::IsMaxHealth() const noexcept { return _player_class->HP->IsFull(); }
-[[nodiscard]] const welltype PlayerCharacter::GetCurrentHP() const noexcept { return _player_class->HP->GetCurrent(); }
-[[nodiscard]] const welltype PlayerCharacter::GetMaxHP() const noexcept { return _player_class->HP->GetMax(); }
-[[nodiscard]] const welltype PlayerCharacter::GetCurrentMP() const noexcept {
+const leveltype PlayerCharacter::GetLevel() const noexcept { return _player_class->GetLevel(); }
+const exptype PlayerCharacter::GetCurrentEXP() const noexcept { return _player_class->GetCurrentEXP(); }
+const exptype PlayerCharacter::GetEXPToNextLevel() const noexcept { return _player_class->GetEXPToNextLevel(); }
+const bool PlayerCharacter::IsMaxHealth() const noexcept { return _player_class->HP->IsFull(); }
+const welltype PlayerCharacter::GetCurrentHP() const noexcept { return _player_class->HP->GetCurrent(); }
+const welltype PlayerCharacter::GetMaxHP() const noexcept { return _player_class->HP->GetMax(); }
+const welltype PlayerCharacter::GetCurrentMP() const noexcept {
   if (_player_class->MP)
     return _player_class->MP->GetCurrent();
   else
     return 0;
 }
-[[nodiscard]] const welltype PlayerCharacter::GetMaxMP() const noexcept {
+const welltype PlayerCharacter::GetMaxMP() const noexcept {
   if (_player_class->MP)
     return _player_class->MP->GetMax();
   else
     return 0;
 }
-[[nodiscard]] const stattype PlayerCharacter::GetBaseStrength() const noexcept { return _player_class->GetBaseStrength(); }
-[[nodiscard]] const stattype PlayerCharacter::GetBaseIntellect() const noexcept { return _player_class->GetBaseIntellect(); }
-[[nodiscard]] const stattype PlayerCharacter::GetBaseAgility() const noexcept { return _player_class->GetBaseAgility(); }
-[[nodiscard]] const stattype PlayerCharacter::GetBaseArmor() const noexcept { return _player_class->GetBaseArmor(); }
-[[nodiscard]] const stattype PlayerCharacter::GetBaseElementRes() const noexcept { return _player_class->GetBaseElementRes(); }
-[[nodiscard]] const stattype PlayerCharacter::GetTotalStrength() const noexcept {
+const stattype PlayerCharacter::GetBaseStrength() const noexcept { return _player_class->GetBaseStrength(); }
+const stattype PlayerCharacter::GetBaseIntellect() const noexcept { return _player_class->GetBaseIntellect(); }
+const stattype PlayerCharacter::GetBaseAgility() const noexcept { return _player_class->GetBaseAgility(); }
+const stattype PlayerCharacter::GetBaseArmor() const noexcept { return _player_class->GetBaseArmor(); }
+const stattype PlayerCharacter::GetBaseElementRes() const noexcept { return _player_class->GetBaseElementRes(); }
+const stattype PlayerCharacter::GetTotalStrength() const noexcept {
   stattype str_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -125,7 +126,7 @@ PlayerCharacter::~PlayerCharacter() {
   }
   return _player_class->GetTotalStrength() + str_from_armor + str_from_weapons;
 }
-[[nodiscard]] const stattype PlayerCharacter::GetTotalIntellect() const noexcept {
+const stattype PlayerCharacter::GetTotalIntellect() const noexcept {
   stattype int_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -150,7 +151,7 @@ PlayerCharacter::~PlayerCharacter() {
   }
   return _player_class->GetTotalIntellect() + int_from_armor + int_from_weapons;
 }
-[[nodiscard]] const stattype PlayerCharacter::GetTotalAgility() const noexcept {
+const stattype PlayerCharacter::GetTotalAgility() const noexcept {
   stattype agil_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -175,7 +176,7 @@ PlayerCharacter::~PlayerCharacter() {
   }
   return _player_class->GetTotalAgility() + agil_from_armor + agil_from_weapons;
 }
-[[nodiscard]] const stattype PlayerCharacter::GetTotalArmor() const noexcept {
+const stattype PlayerCharacter::GetTotalArmor() const noexcept {
   // get all armor from equipped armor
   stattype armor_from_armor = 0;
   {
@@ -201,7 +202,7 @@ PlayerCharacter::~PlayerCharacter() {
   }
   return _player_class->GetTotalArmor() + armor_from_armor + armor_from_weapons;
 }
-[[nodiscard]] const stattype PlayerCharacter::GetTotalElementRes() const noexcept {
+const stattype PlayerCharacter::GetTotalElementRes() const noexcept {
   stattype resist_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -226,16 +227,44 @@ PlayerCharacter::~PlayerCharacter() {
   }
   return _player_class->GetTotalElementRes() + resist_from_armor + elres_from_weapons;
 }
-[[nodiscard]] const std::vector<Ability> PlayerCharacter::GetAbilityList() const noexcept { return _player_class->Abilities; }
-[[nodiscard]] const std::vector<Buff> PlayerCharacter::GetBuffList() const noexcept { return _player_class->Buffs; }
-[[nodiscard]] const std::vector<Item*> PlayerCharacter::GetBackpackList() const noexcept { return _backpack; }
-[[nodiscard]] const Armor* PlayerCharacter::GetEquippedArmorAt(unsigned long long i) const noexcept {
+const std::vector<Ability> PlayerCharacter::GetAbilityList() const noexcept { return _player_class->Abilities; }
+const std::vector<Buff> PlayerCharacter::GetBuffList() const noexcept { return _player_class->Buffs; }
+const std::vector<Item*> PlayerCharacter::GetBackpackList() const noexcept { return _backpack; }
+const Armor* PlayerCharacter::GetEquippedArmorAt(unsigned long long i) const noexcept {
   if (!_equipped_armor[i]) return nullptr;
-  return (dynamic_cast<const Armor*>(_equipped_armor[i]->GetData()));
+  return dynamic_cast<const Armor*>(_equipped_armor[i]->GetData());
 }
-[[nodiscard]] const Weapon* PlayerCharacter::GetEquippedWeaponAt(unsigned long long i) const noexcept {
+const Weapon* PlayerCharacter::GetEquippedWeaponAt(unsigned long long i) const noexcept {
   if (!_equipped_weapons[i]) return nullptr;
-  return (dynamic_cast<const Weapon*>(_equipped_weapons[i]->GetData()));
+  return dynamic_cast<const Weapon*>(_equipped_weapons[i]->GetData());
+}
+
+const damagetype PlayerCharacter::MeleeAttack() const noexcept {
+  damagetype tmp_damage_done = 0;
+  
+  const Weapon* equipped_weapon = GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE);
+  // if weapon exists get the damage, else the base damage stays 0
+  if (equipped_weapon) {
+    tmp_damage_done = Random::NTK(equipped_weapon->MinDamage, equipped_weapon->MaxDamage);
+  }
+  
+  // add 1/4 of str as bonus melee damage
+  tmp_damage_done += damagetype(GetTotalStrength() / 4.f);
+
+  return tmp_damage_done;
+}
+
+const damagetype PlayerCharacter::RangedAttack() const noexcept {
+  damagetype tmp_damage_done = 0;
+
+  const Weapon* equipped_weapon = GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED);
+  // if weapon exists get the damage, else the base damage stays 0
+  if (equipped_weapon) {
+    tmp_damage_done = Random::NTK(equipped_weapon->MinDamage, equipped_weapon->MaxDamage);
+    tmp_damage_done += damagetype(GetTotalAgility() / 4.f);  // add 1/4 of agi as bonus ranged damage
+  }
+
+  return tmp_damage_done;
 }
 
 // Modifiers

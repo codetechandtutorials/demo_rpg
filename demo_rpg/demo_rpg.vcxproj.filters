@@ -63,6 +63,12 @@
     <ClCompile Include="wizard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="monster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\demo_rpg\pointwell.h">
@@ -117,6 +123,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\demo_rpg\playableclasses_fwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\demo_rpg\monster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\demo_rpg\random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

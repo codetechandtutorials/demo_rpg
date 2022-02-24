@@ -14,6 +14,6 @@ public:
   PointWell(welltype c, welltype m);
 
 private:
-  welltype _current_fullness;
-  welltype _max_well;
+  welltype _current;
+  welltype _max;
 };

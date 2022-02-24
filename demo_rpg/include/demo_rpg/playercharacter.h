@@ -65,6 +65,9 @@ public:
   [[nodiscard]] const std::vector<Item*> GetBackpackList() const noexcept;
   [[nodiscard]] const Armor* GetEquippedArmorAt(unsigned long long i) const noexcept;
   [[nodiscard]] const Weapon* GetEquippedWeaponAt(unsigned long long i) const noexcept;
+  [[nodiscard]] const damagetype MeleeAttack() const noexcept;
+  [[nodiscard]] const damagetype RangedAttack() const noexcept;
+
 
   // Modifiers
   void GainEXP(exptype amt) noexcept;
