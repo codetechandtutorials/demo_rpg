@@ -8,7 +8,7 @@ Warrior::Warrior() : PlayerCharacterDelegate() {
 }
 void Warrior::level_up() {
   LEVELUP
-    if (CurrentLevel == 2) {
+    if (GetLevel() == 2) {
       Abilities.emplace_back("PowerAttack", 4u, nullptr, 0u, 3u, ABILITYTARGET::ENEMY, ABILITYSCALER::STR);
     }
 }

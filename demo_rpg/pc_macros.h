@@ -1,6 +1,7 @@
 #pragma once
 
 #define PCCONSTRUCT \
+HP = std::make_unique<PointWell>(BASEHP, BASEHP); \
 HP->setMax(BASEHP);\
 HP->increaseCurrent(BASEHP);\
 if (MP) { \

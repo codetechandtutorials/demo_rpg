@@ -3,7 +3,7 @@
 #include "corestats.h"
 #include <string>
 
-enum class ARMORSLOT { HELMET, CHEST, LEGS, BOOTS, GLOVES, RING1, RING2, NECK, NUM_SLOTS };  // NUM SLOTS FOR MAKING ARRAYS OF ARMOR SLOTS
+enum class ARMORSLOT { HEAD, CHEST, LEGS, FEET, HANDS, RING1, RING2, NECK, NUM_SLOTS };
 class Armor final : public EquipmentDelegate {
 public:
   ARMORSLOT Slot;

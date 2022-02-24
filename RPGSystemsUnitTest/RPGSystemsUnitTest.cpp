@@ -168,7 +168,7 @@ public:
     Assert::IsNull(a_magic_weapon);
   }
   TEST_METHOD(Item_Armor) {
-    Item* armor_item = ItemManager::CreateArmor("SomeArmor", CoreStats(1, 2, 3, 4, 5), ARMORSLOT::HELMET);
+    Item* armor_item = ItemManager::CreateArmor("SomeArmor", CoreStats(1, 2, 3, 4, 5), ARMORSLOT::HEAD);
     Assert::IsNotNull(armor_item);
     Assert::IsFalse(ItemManager::IsItemWeapon(armor_item));
     Assert::IsTrue(ItemManager::IsItemArmor(armor_item));
@@ -184,7 +184,7 @@ public:
       Assert::AreEqual(3, (int)armor->Stats.Agility);
       Assert::AreEqual(4, (int)armor->Stats.Armor);
       Assert::AreEqual(5, (int)armor->Stats.ElementRes);
-      Assert::AreEqual((int)ARMORSLOT::HELMET, (int)armor->Slot);
+      Assert::AreEqual((int)ARMORSLOT::HEAD, (int)armor->Slot);
     }
 
     // mutable casts
@@ -198,7 +198,7 @@ public:
       Assert::AreEqual(3, (int)armor_mod->Stats.Agility);
       Assert::AreEqual(4, (int)armor_mod->Stats.Armor);
       Assert::AreEqual(5, (int)armor_mod->Stats.ElementRes);
-      Assert::AreEqual((int)ARMORSLOT::HELMET, (int)armor_mod->Slot);
+      Assert::AreEqual((int)ARMORSLOT::HEAD, (int)armor_mod->Slot);
 
       // make changes
       armor_mod->Name = "+1 Scale Armor";
@@ -284,8 +284,7 @@ public:
     ItemManager::DeleteItem(random_potion);
     Assert::IsNull(random_potion);
   }
-
-  TEST_METHOD(PlayerCleric) {
+  TEST_METHOD(Player_Cleric) {
     PlayerCharacter p1(new Cleric());
     Assert::AreEqual((int)Cleric::BASEHP, (int)p1.getMaxHP());
     Assert::AreEqual((int)Cleric::BASEMP, (int)p1.getMaxMP());
@@ -293,34 +292,32 @@ public:
 
     p1.gainEXP(100u);
     // level 2
-    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(2, (int)p1.GetLevel());
     Assert::AreEqual(std::string("Smite"), p1.getAbilityList()[1].Name);
     Assert::AreEqual((int)(Cleric::BASEHP + (Cleric::BASEHP / 2.f)), (int)p1.getMaxHP());
     Assert::AreEqual((int)(Cleric::BASEMP + (Cleric::BASEMP / 2.f)), (int)p1.getMaxMP());
   }
-
-  TEST_METHOD(PlayerRogue) {
+  TEST_METHOD(Player_Rogue) {
     PlayerCharacter p1(new Rogue());
     Assert::AreEqual((int)Rogue::BASEHP, (int)p1.getMaxHP());
 
     p1.gainEXP(100u);
     // level 2
-    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(2, (int)p1.GetLevel());
     Assert::AreEqual(std::string("PreciseAttack"), p1.getAbilityList().front().Name);
     Assert::AreEqual((int)(Rogue::BASEHP + (Rogue::BASEHP / 2.f)), (int)p1.getMaxHP());
   }
-  TEST_METHOD(PlayerWarrior) {
+  TEST_METHOD(Player_Warrior) {
     PlayerCharacter p1(new Warrior());
     Assert::AreEqual((int)Warrior::BASEHP, (int)p1.getMaxHP());
 
     p1.gainEXP(100u);
     // level 2
-    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(2, (int)p1.GetLevel());
     Assert::AreEqual(std::string("PowerAttack"), p1.getAbilityList().front().Name);
     Assert::AreEqual((int)(Warrior::BASEHP + (Warrior::BASEHP / 2.f)), (int)p1.getMaxHP());
   }
-
-  TEST_METHOD(PlayerWizard) {
+  TEST_METHOD(Player_Wizard) {
     PlayerCharacter p1(new Wizard());
     Assert::AreEqual((int)Wizard::BASEHP, (int)p1.getMaxHP());
     Assert::AreEqual((int)Wizard::BASEMP, (int)p1.getMaxMP());
@@ -328,22 +325,45 @@ public:
 
     p1.gainEXP(100u);
     // level 2
-    Assert::AreEqual(2, (int)p1.getLevel());
+    Assert::AreEqual(2, (int)p1.GetLevel());
     Assert::AreEqual(std::string("IceBolt"), p1.getAbilityList()[1].Name);
     Assert::AreEqual((int)(Wizard::BASEHP + (Wizard::BASEHP / 2.f)), (int)p1.getMaxHP());
     Assert::AreEqual((int)(Wizard::BASEMP + (Wizard::BASEMP / 2.f)), (int)p1.getMaxMP());
   }
-  TEST_METHOD(Equip) {
+  TEST_METHOD(Equip_Player) {
+    // a player to equip
     PlayerCharacter rogue(new Rogue());
-    Assert::IsTrue(ItemManager::Equip(
-      ItemManager::CreateWeapon("Dagger", CoreStats(), WEAPONSLOT::MELEE, 1, 3, false),
-      &rogue));
+    
+    // equip a full suite of items
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateWeapon("Dagger", CoreStats(), WEAPONSLOT::MELEE, 1, 3, false), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateWeapon("Bow", CoreStats(), WEAPONSLOT::RANGED, 1, 3, false), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Helm", CoreStats(0,0,0,1,1), ARMORSLOT::HEAD), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Armor", CoreStats(0,0,0,1,1), ARMORSLOT::CHEST), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Pants", CoreStats(0,0,0,1,1), ARMORSLOT::LEGS), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Shoes", CoreStats(0,0,0,1,1), ARMORSLOT::FEET), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Gloves", CoreStats(0,0,0,1,1), ARMORSLOT::HANDS), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Silver Ring", CoreStats(1), ARMORSLOT::RING1), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Gold Ring", CoreStats(2), ARMORSLOT::RING2), &rogue));
+    Assert::IsTrue(ItemManager::Equip(ItemManager::CreateArmor("Necklace", CoreStats(0,0,0,1,1), ARMORSLOT::NECK), &rogue));
 
+    // check slots
     Assert::IsNotNull(rogue.getEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE));
+    Assert::IsNotNull(rogue.getEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::FEET));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::RING1));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::RING2));
+    Assert::IsNotNull(rogue.getEquippedArmorAt((unsigned long long)ARMORSLOT::NECK));
 
-    Assert::IsFalse(ItemManager::Equip(
-      ItemManager::CreatePotion("ArmorPot", 0, 1, new Buff("ArmorBuff", CoreStats(0, 0, 0, 3, 0), 5)),
-      &rogue));
+    // equipping a potion should fail and go into inventory
+    Assert::IsFalse(ItemManager::Equip(ItemManager::CreatePotion("ArmorPot", 0, 1, new Buff("ArmorBuff", CoreStats(0, 0, 0, 3, 0), 5)), &rogue));
+
+    auto backpack = rogue.getBackpackList();
+    Assert::AreEqual(1, (int)backpack.size());
+
   }
 
 };

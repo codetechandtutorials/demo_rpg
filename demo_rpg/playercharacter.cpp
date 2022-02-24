@@ -3,40 +3,31 @@
 
 PlayerCharacterDelegate::~PlayerCharacterDelegate() {}
 
+
+void PlayerCharacterDelegate::GiveEXP(const exptype amt) noexcept {
+  CurrentEXP += amt;
+  while (check_if_leveled()) {}
+}
+
 PlayerCharacterDelegate::PlayerCharacterDelegate() : StatBlock(0u, 0u) {
   CurrentLevel = (leveltype)1u;
   CurrentEXP = (exptype)0u;
   EXPToNextLevel = LEVEL2AT;
-  HP = std::make_unique<PointWell>(1u, 1u);
 }
 
-void PlayerCharacterDelegate::gainEXP(exptype gained_exp) {
-  CurrentEXP += gained_exp;
-  while (check_if_leveled()) {}
-}
-
-leveltype PlayerCharacterDelegate::getLevel() const {
+[[nodiscard]] leveltype PlayerCharacterDelegate::GetLevel() const noexcept {
   return CurrentLevel;
 }
 
-exptype PlayerCharacterDelegate::getCurrentEXP() const {
+[[nodiscard]] exptype PlayerCharacterDelegate::GetCurrentEXP() const noexcept {
   return CurrentEXP;
 }
 
-exptype PlayerCharacterDelegate::getEXPToNextLevel() const {
+[[nodiscard]] exptype PlayerCharacterDelegate::GetEXPToNextLevel() const noexcept {
   return EXPToNextLevel;
 }
 
-const std::vector<Buff>& PlayerCharacterDelegate::getBuffList() const {
-  return Buffs;
-}
-
-void PlayerCharacterDelegate::applyBuff(Buff b) {
-  addNewBuff(b);
-}
-
-
-bool PlayerCharacterDelegate::check_if_leveled() {
+[[nodiscard]] bool PlayerCharacterDelegate::check_if_leveled() noexcept {
   static const leveltype LEVELSCALAR = 2u;
   if (CurrentEXP >= EXPToNextLevel) {
     CurrentLevel++;
@@ -47,8 +38,11 @@ bool PlayerCharacterDelegate::check_if_leveled() {
   return false;
 }
 
+void PlayerCharacter::move_to_backpack(Item* item_to_move) noexcept {
+  Backpack.push_back(item_to_move);
+}
 
-void PlayerCharacter::cleanup_backpack() {
+void PlayerCharacter::cleanup_backpack() noexcept {
   const auto to_remove = std::stable_partition(Backpack.begin(), Backpack.end(),
     [](const Item* i) -> bool { return !i->GetMarkedForDeletion(); }
   );
@@ -83,30 +77,30 @@ PlayerCharacter::~PlayerCharacter() {
 }
 
 // Getters
-const leveltype PlayerCharacter::getLevel() const { return pcclass->getLevel(); }
-const exptype PlayerCharacter::getCurrentEXP() const { return pcclass->getCurrentEXP(); }
-const exptype PlayerCharacter::getEXPToNextLevel() const { return pcclass->getEXPToNextLevel(); }
-const bool PlayerCharacter::IsMaxHealth() const { return pcclass->HP->isFull(); }
-const welltype PlayerCharacter::getCurrentHP() const { return pcclass->HP->getCurrent(); }
-const welltype PlayerCharacter::getMaxHP() const { return pcclass->HP->getMax(); }
-const welltype PlayerCharacter::getCurrentMP() const {
+[[nodiscard]] const leveltype PlayerCharacter::GetLevel() const noexcept { return pcclass->GetLevel(); }
+[[nodiscard]] const exptype PlayerCharacter::getCurrentEXP() const noexcept { return pcclass->GetCurrentEXP(); }
+[[nodiscard]] const exptype PlayerCharacter::getEXPToNextLevel() const noexcept { return pcclass->GetEXPToNextLevel(); }
+[[nodiscard]] const bool PlayerCharacter::IsMaxHealth() const noexcept { return pcclass->HP->isFull(); }
+[[nodiscard]] const welltype PlayerCharacter::getCurrentHP() const noexcept { return pcclass->HP->getCurrent(); }
+[[nodiscard]] const welltype PlayerCharacter::getMaxHP() const noexcept { return pcclass->HP->getMax(); }
+[[nodiscard]] const welltype PlayerCharacter::getCurrentMP() const noexcept {
   if (pcclass->MP)
     return pcclass->MP->getCurrent();
   else
     return 0;
 }
-const welltype PlayerCharacter::getMaxMP() const {
+[[nodiscard]] const welltype PlayerCharacter::getMaxMP() const noexcept {
   if (pcclass->MP)
     return pcclass->MP->getMax();
   else
     return 0;
 }
-const stattype PlayerCharacter::getBaseStrength() const { return pcclass->getBaseStrength(); }
-const stattype PlayerCharacter::getBaseIntellect() const { return pcclass->getBaseIntellect(); }
-const stattype PlayerCharacter::getBaseAgility() const { return pcclass->getBaseAgility(); }
-const stattype PlayerCharacter::getBaseArmor() const { return pcclass->getBaseArmor(); }
-const stattype PlayerCharacter::getBaseElementRes() const { return pcclass->getBaseElementRes(); }
-const stattype PlayerCharacter::getTotalStrength() const {
+[[nodiscard]] const stattype PlayerCharacter::getBaseStrength() const noexcept { return pcclass->getBaseStrength(); }
+[[nodiscard]] const stattype PlayerCharacter::getBaseIntellect() const noexcept { return pcclass->getBaseIntellect(); }
+[[nodiscard]] const stattype PlayerCharacter::getBaseAgility() const noexcept { return pcclass->getBaseAgility(); }
+[[nodiscard]] const stattype PlayerCharacter::getBaseArmor() const noexcept { return pcclass->getBaseArmor(); }
+[[nodiscard]] const stattype PlayerCharacter::getBaseElementRes() const noexcept { return pcclass->getBaseElementRes(); }
+[[nodiscard]] const stattype PlayerCharacter::getTotalStrength() const noexcept {
   stattype str_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -131,7 +125,7 @@ const stattype PlayerCharacter::getTotalStrength() const {
   }
   return pcclass->getTotalStrength() + str_from_armor + str_from_weapons;
 }
-const stattype PlayerCharacter::getTotalIntellect() const {
+[[nodiscard]] const stattype PlayerCharacter::getTotalIntellect() const noexcept {
   stattype int_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -156,7 +150,7 @@ const stattype PlayerCharacter::getTotalIntellect() const {
   }
   return pcclass->getTotalIntellect() + int_from_armor + int_from_weapons;
 }
-const stattype PlayerCharacter::getTotalAgility() const {
+[[nodiscard]] const stattype PlayerCharacter::getTotalAgility() const noexcept {
   stattype agil_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -181,7 +175,7 @@ const stattype PlayerCharacter::getTotalAgility() const {
   }
   return pcclass->getTotalAgility() + agil_from_armor + agil_from_weapons;
 }
-const stattype PlayerCharacter::getTotalArmor() const {
+[[nodiscard]] const stattype PlayerCharacter::getTotalArmor() const noexcept {
   // get all armor from equipped armor
   stattype armor_from_armor = 0;
   {
@@ -207,7 +201,7 @@ const stattype PlayerCharacter::getTotalArmor() const {
   }
   return pcclass->getTotalArmor() + armor_from_armor + armor_from_weapons;
 }
-const stattype PlayerCharacter::getTotalElementRes() const {
+[[nodiscard]] const stattype PlayerCharacter::getTotalElementRes() const noexcept {
   stattype resist_from_armor = 0;
   {
     Armor* armor = nullptr;
@@ -232,22 +226,22 @@ const stattype PlayerCharacter::getTotalElementRes() const {
   }
   return pcclass->getTotalElementRes() + resist_from_armor + elres_from_weapons;
 }
-const std::vector<Ability> PlayerCharacter::getAbilityList() const { return pcclass->Abilities; }
-const std::vector<Buff> PlayerCharacter::getBuffList() const { return pcclass->getBuffList(); }
-const std::vector<Item*> PlayerCharacter::getBackpackList() const { return Backpack; }
-const Armor* PlayerCharacter::getEquippedArmorAt(unsigned long long i) const {
+[[nodiscard]] const std::vector<Ability> PlayerCharacter::getAbilityList() const noexcept { return pcclass->Abilities; }
+[[nodiscard]] const std::vector<Buff> PlayerCharacter::getBuffList() const noexcept { return pcclass->Buffs; }
+[[nodiscard]] const std::vector<Item*> PlayerCharacter::getBackpackList() const noexcept { return Backpack; }
+[[nodiscard]] const Armor* PlayerCharacter::getEquippedArmorAt(unsigned long long i) const noexcept {
   if (!EquippedArmor[i]) return nullptr;
   return (dynamic_cast<const Armor*>(EquippedArmor[i]->GetData()));
 }
-const Weapon* PlayerCharacter::getEquippedWeaponAt(unsigned long long i) const {
+[[nodiscard]] const Weapon* PlayerCharacter::getEquippedWeaponAt(unsigned long long i) const noexcept {
   if (!EquippedWeapons[i]) return nullptr;
   return (dynamic_cast<const Weapon*>(EquippedWeapons[i]->GetData()));
 }
 
 // Modifiers
-void PlayerCharacter::gainEXP(exptype amt) { pcclass->gainEXP(amt); }
-void PlayerCharacter::takeDamage(welltype amt) { pcclass->HP->reduceCurrent(amt); }
-void PlayerCharacter::heal(welltype amt) { pcclass->HP->increaseCurrent(amt); }
-void PlayerCharacter::applyBuff(Buff buff) {
-  pcclass->applyBuff(buff);
+void PlayerCharacter::gainEXP(exptype amt) noexcept { pcclass->GiveEXP(amt); }
+void PlayerCharacter::takeDamage(welltype amt) noexcept { pcclass->HP->reduceCurrent(amt); }
+void PlayerCharacter::heal(welltype amt) noexcept { pcclass->HP->increaseCurrent(amt); }
+void PlayerCharacter::applyBuff(Buff buff) noexcept {
+  pcclass->Buffs.push_back(buff);
 }
