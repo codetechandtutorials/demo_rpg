@@ -2,17 +2,18 @@
 #include "types.h"
 class PointWell {
 public:
-  // returns true if set successfully
-  bool setMax(welltype new_max);
-  welltype getMax();
-  welltype getCurrent();
-  bool isFull();
-  void reduceCurrent(welltype damage);
-  void increaseCurrent(welltype amount);
+  [[nodiscard]] const welltype GetMax() const noexcept;
+  [[nodiscard]] const welltype GetCurrent() const noexcept;
+  [[nodiscard]] const bool IsFull() const noexcept;
+
+  void SetMax(welltype new_max) noexcept;
+  void ReduceCurrent(welltype damage) noexcept;
+  void IncreaseCurrent(welltype amount) noexcept;
+
   PointWell();
   PointWell(welltype c, welltype m);
 
 private:
-  welltype CurrentFullness;
-  welltype MaxWell;
+  welltype _current_fullness;
+  welltype _max_well;
 };

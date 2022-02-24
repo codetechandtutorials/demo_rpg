@@ -11,5 +11,5 @@ public:
   static const stattype BASEAGI = (stattype)6u;
   Rogue();
 private:
-  void level_up() override;
+  void level_char_up() noexcept override;
 };

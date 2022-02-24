@@ -1,20 +1,20 @@
 #include "potion.h"
 
-const Buff* Potion::GetBuff() const { return buff; }
+const Buff* Potion::GetBuff() const { return _buff; }
 void Potion::SetBuff(Buff* new_buff) {
-  if (buff) {
-    delete buff;
-    buff = nullptr;
+  if (_buff) {
+    delete _buff;
+    _buff = nullptr;
   }
-  buff = new_buff;
+  _buff = new_buff;
 }
 
 Potion::Potion(std::string name, welltype hp_heal, itemcount quant, Buff* buf)
-  : ItemDelegate(name), buff(buf), HealAmount(hp_heal), Quantity(quant) {
+  : ItemDelegate(name), _buff(buf), HealAmount(hp_heal), Quantity(quant) {
 }
 Potion::~Potion() {  // only ItemManger can clean this up
-  if (buff) {
-    delete buff;
-    buff = nullptr;
+  if (_buff) {
+    delete _buff;
+    _buff = nullptr;
   }
 }

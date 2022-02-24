@@ -6,10 +6,10 @@ Wizard::Wizard() : PlayerCharacterDelegate() {
   PCCONSTRUCT
     Abilities.emplace_back("Firebolt", 4u, nullptr, 2u, 1u, ABILITYTARGET::ENEMY, ABILITYSCALER::INT);
 }
-void Wizard::level_up() {
+void Wizard::level_char_up() noexcept {
   LEVELUP
     if (GetLevel() == 2) {
       Abilities.emplace_back("IceBolt", 6u, nullptr, 3u, 1u, ABILITYTARGET::ENEMY, ABILITYSCALER::INT);
-      increaseStats(0, 1);
+      increase_stats(0, 1);
     }
 }

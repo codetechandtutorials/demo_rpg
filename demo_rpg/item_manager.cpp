@@ -32,8 +32,8 @@ bool ItemManager::IsItemWeapon(const Item* in) {
 
 
 
-[[nodiscard]] Item* ItemManager::CreatePotion(std::string name, welltype heal, itemcount qaunt, Buff* buff) {
-  Item* temp_item = new Item(new Potion(name, heal, (qaunt == 0) ? 1 : qaunt, buff));
+[[nodiscard]] Item* ItemManager::CreatePotion(std::string name, welltype Heal, itemcount qaunt, Buff* _buff) {
+  Item* temp_item = new Item(new Potion(name, Heal, (qaunt == 0) ? 1 : qaunt, _buff));
   return temp_item;
 }
 void ItemManager::CastItemToPotion(const Item* in, Potion*& out) {
@@ -54,11 +54,11 @@ bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
   Armor* armor = dynamic_cast<Armor*>(item_to_equip->_data);
   if (armor) {
     unsigned long long slot_num = (unsigned long long)armor->Slot;
-    if (p_char->EquippedArmor[slot_num]) {
-      MoveToBackpack(p_char->EquippedArmor[slot_num], p_char);  // move old item to backpack
-      p_char->EquippedArmor[slot_num] = item_to_equip;  // equip new item
+    if (p_char->_equipped_armor[slot_num]) {
+      MoveToBackpack(p_char->_equipped_armor[slot_num], p_char);  // move old item to backpack
+      p_char->_equipped_armor[slot_num] = item_to_equip;  // equip new item
     } else {
-      p_char->EquippedArmor[slot_num] = item_to_equip;
+      p_char->_equipped_armor[slot_num] = item_to_equip;
     }
     return true;
   }
@@ -66,11 +66,11 @@ bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
   Weapon* weapon = dynamic_cast<Weapon*>(item_to_equip->_data);
   if (weapon) {
     unsigned long long slot_num = (unsigned long long)weapon->Slot;
-    if (p_char->EquippedWeapons[slot_num]) {
-      MoveToBackpack(p_char->EquippedWeapons[slot_num], p_char);  // move old item to backpack
-      p_char->EquippedWeapons[slot_num] = item_to_equip;  // equip new item
+    if (p_char->_equipped_weapons[slot_num]) {
+      MoveToBackpack(p_char->_equipped_weapons[slot_num], p_char);  // move old item to backpack
+      p_char->_equipped_weapons[slot_num] = item_to_equip;  // equip new item
     } else {
-      p_char->EquippedWeapons[slot_num] = item_to_equip;
+      p_char->_equipped_weapons[slot_num] = item_to_equip;
     }
     return true;
   }
@@ -93,13 +93,13 @@ bool ItemManager::Use(Item* item_to_use, PlayerCharacter* p_char) {
 
   if (potion && potion->Quantity > 0) {
     // apply buff if it has one
-    if (potion->buff) {
-      if (potion->buff->isDebuff) {
-        p_char->takeDamage(potion->HealAmount);
+    if (potion->_buff) {
+      if (potion->_buff->isDebuff) {
+        p_char->TakeDamage(potion->HealAmount);
       }
-      p_char->applyBuff(*potion->buff);
+      p_char->ApplyBuff(*potion->_buff);
     } else {  // healing potion only, no buff/debuff, only use if not already max health 
-      if (p_char->IsMaxHealth()) { return false; } else { p_char->heal(potion->HealAmount); }
+      if (p_char->IsMaxHealth()) { return false; } else { p_char->Heal(potion->HealAmount); }
     }
 
     // we used the potion, reduce quantity

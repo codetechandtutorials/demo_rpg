@@ -28,7 +28,7 @@ public:
   static bool IsItemWeapon(const Item* in);
 
   // makes at least 1 potion
-  static Item* CreatePotion(std::string name, welltype heal = 1u, itemcount qaunt = 1u, Buff* buff = nullptr);
+  static Item* CreatePotion(std::string name, welltype Heal = 1u, itemcount qaunt = 1u, Buff* _buff = nullptr);
 
   // out will be nullptr if this cast fails
   static void CastItemToPotion(const Item* in, Potion*& out);

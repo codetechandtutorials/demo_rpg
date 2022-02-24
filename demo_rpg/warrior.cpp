@@ -6,7 +6,7 @@ Warrior::Warrior() : PlayerCharacterDelegate() {
   PCCONSTRUCT
 
 }
-void Warrior::level_up() {
+void Warrior::level_char_up() noexcept {
   LEVELUP
     if (GetLevel() == 2) {
       Abilities.emplace_back("PowerAttack", 4u, nullptr, 0u, 3u, ABILITYTARGET::ENEMY, ABILITYSCALER::STR);

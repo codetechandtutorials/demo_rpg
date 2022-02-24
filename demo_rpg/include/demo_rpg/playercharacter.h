@@ -29,11 +29,11 @@ public:
   std::vector<Buff> Buffs;
 protected:
 private:
-  exptype CurrentEXP;
-  exptype EXPToNextLevel;
-  virtual void level_up() = 0;
-  leveltype CurrentLevel;
-  [[nodiscard]] bool check_if_leveled() noexcept;
+  exptype _current_exp;
+  exptype _exp_to_next_level;
+  virtual void level_char_up() noexcept = 0;
+  leveltype _current_level;
+  [[nodiscard]] const bool check_if_leveled() noexcept;
 };
 
 class PlayerCharacter final {
@@ -43,41 +43,41 @@ public:
 
   // Getters
   [[nodiscard]] const leveltype GetLevel() const noexcept;
-  [[nodiscard]] const exptype getCurrentEXP() const noexcept;
-  [[nodiscard]] const exptype getEXPToNextLevel() const noexcept;
-  [[nodiscard]] const welltype getCurrentHP() const noexcept;
-  [[nodiscard]] const welltype getMaxHP() const noexcept;
-  [[nodiscard]] const welltype getCurrentMP() const noexcept;
+  [[nodiscard]] const exptype GetCurrentEXP() const noexcept;
+  [[nodiscard]] const exptype GetEXPToNextLevel() const noexcept;
   [[nodiscard]] const bool IsMaxHealth() const noexcept;
-  [[nodiscard]] const welltype getMaxMP() const noexcept;
-  [[nodiscard]] const stattype getBaseStrength() const noexcept;
-  [[nodiscard]] const stattype getBaseIntellect() const noexcept;
-  [[nodiscard]] const stattype getBaseAgility() const noexcept;
-  [[nodiscard]] const stattype getBaseArmor() const noexcept;
-  [[nodiscard]] const stattype getBaseElementRes() const noexcept;
-  [[nodiscard]] const stattype getTotalStrength() const noexcept;
-  [[nodiscard]] const stattype getTotalIntellect() const noexcept;
-  [[nodiscard]] const stattype getTotalAgility() const noexcept;
-  [[nodiscard]] const stattype getTotalArmor() const noexcept;
-  [[nodiscard]] const stattype getTotalElementRes() const noexcept;
-  [[nodiscard]] const std::vector<Ability> getAbilityList() const noexcept;
-  [[nodiscard]] const std::vector<Buff> getBuffList() const noexcept;
-  [[nodiscard]] const std::vector<Item*> getBackpackList() const noexcept;
-  [[nodiscard]] const Armor* getEquippedArmorAt(unsigned long long i) const noexcept;
-  [[nodiscard]] const Weapon* getEquippedWeaponAt(unsigned long long i) const noexcept;
+  [[nodiscard]] const welltype GetCurrentHP() const noexcept;
+  [[nodiscard]] const welltype GetMaxHP() const noexcept;
+  [[nodiscard]] const welltype GetCurrentMP() const noexcept;
+  [[nodiscard]] const welltype GetMaxMP() const noexcept;
+  [[nodiscard]] const stattype GetBaseStrength() const noexcept;
+  [[nodiscard]] const stattype GetBaseIntellect() const noexcept;
+  [[nodiscard]] const stattype GetBaseAgility() const noexcept;
+  [[nodiscard]] const stattype GetBaseArmor() const noexcept;
+  [[nodiscard]] const stattype GetBaseElementRes() const noexcept;
+  [[nodiscard]] const stattype GetTotalStrength() const noexcept;
+  [[nodiscard]] const stattype GetTotalIntellect() const noexcept;
+  [[nodiscard]] const stattype GetTotalAgility() const noexcept;
+  [[nodiscard]] const stattype GetTotalArmor() const noexcept;
+  [[nodiscard]] const stattype GetTotalElementRes() const noexcept;
+  [[nodiscard]] const std::vector<Ability> GetAbilityList() const noexcept;
+  [[nodiscard]] const std::vector<Buff> GetBuffList() const noexcept;
+  [[nodiscard]] const std::vector<Item*> GetBackpackList() const noexcept;
+  [[nodiscard]] const Armor* GetEquippedArmorAt(unsigned long long i) const noexcept;
+  [[nodiscard]] const Weapon* GetEquippedWeaponAt(unsigned long long i) const noexcept;
 
   // Modifiers
-  void gainEXP(exptype amt) noexcept;
-  void takeDamage(welltype amt) noexcept;
-  void heal(welltype amt) noexcept;
-  void applyBuff(Buff buff) noexcept;
+  void GainEXP(exptype amt) noexcept;
+  void TakeDamage(welltype amt) noexcept;
+  void Heal(welltype amt) noexcept;
+  void ApplyBuff(Buff _buff) noexcept;
 
 private:
-  PlayerCharacterDelegate* pcclass;
-  std::vector<Item*> Backpack;
+  PlayerCharacterDelegate* _player_class;
+  std::vector<Item*> _backpack;
 
-  Item* EquippedArmor[(unsigned long long)ARMORSLOT::NUM_SLOTS];
-  Item* EquippedWeapons[(unsigned long long)WEAPONSLOT::NUM_SLOTS];
+  Item* _equipped_armor[(unsigned long long)ARMORSLOT::NUM_SLOTS];
+  Item* _equipped_weapons[(unsigned long long)WEAPONSLOT::NUM_SLOTS];
   
   void move_to_backpack(Item* item_to_move) noexcept;
   void cleanup_backpack() noexcept;

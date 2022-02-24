@@ -2,19 +2,19 @@
 
 #define PCCONSTRUCT \
 HP = std::make_unique<PointWell>(BASEHP, BASEHP); \
-HP->setMax(BASEHP);\
-HP->increaseCurrent(BASEHP);\
+HP->SetMax(BASEHP);\
+HP->IncreaseCurrent(BASEHP);\
 if (MP) { \
-  MP->setMax(BASEMP); \
-  MP->increaseCurrent(BASEMP); \
+  MP->SetMax(BASEMP); \
+  MP->IncreaseCurrent(BASEMP); \
 }\
-increaseStats(BASESTR, BASEINT, BASEAGI);
+increase_stats(BASESTR, BASEINT, BASEAGI);
 
 #define LEVELUP \
-HP->setMax((welltype)((BASEHP / 2.f) + HP->getMax()));\
-HP->increaseCurrent((welltype)(BASEHP / 2.f));\
+HP->SetMax((welltype)((BASEHP / 2.f) + HP->GetMax()));\
+HP->IncreaseCurrent((welltype)(BASEHP / 2.f));\
 if (MP) {\
-  MP->setMax((welltype)((BASEMP / 2.f) + MP->getMax()));\
-  MP->increaseCurrent((welltype)(BASEMP / 2.f));\
+  MP->SetMax((welltype)((BASEMP / 2.f) + MP->GetMax()));\
+  MP->IncreaseCurrent((welltype)(BASEMP / 2.f));\
 }\
-increaseStats((stattype)((BASESTR + 1u) / 2.f), (stattype)((BASEINT + 1u) / 2.f), (stattype)((BASEAGI + 1u) / 2.f));
+increase_stats((stattype)((BASESTR + 1u) / 2.f), (stattype)((BASEINT + 1u) / 2.f), (stattype)((BASEAGI + 1u) / 2.f));

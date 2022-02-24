@@ -7,7 +7,7 @@ Cleric::Cleric() : PlayerCharacterDelegate() {
     Abilities.emplace_back("Heal", 2u, nullptr, 2u, 1u, ABILITYTARGET::ALLY, ABILITYSCALER::INT);
 }
 
-void Cleric::level_up() {
+void Cleric::level_char_up() noexcept{
   LEVELUP
     if (GetLevel() == 2) {
       Abilities.emplace_back("Smite", 2u, nullptr, 2u, 1u, ABILITYTARGET::ENEMY, ABILITYSCALER::INT);

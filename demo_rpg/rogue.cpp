@@ -6,7 +6,7 @@ Rogue::Rogue() : PlayerCharacterDelegate() {
   PCCONSTRUCT
 
 }
-void Rogue::level_up() {
+void Rogue::level_char_up() noexcept {
   LEVELUP
     if (GetLevel() == 2) {
       Abilities.emplace_back("PreciseAttack", 6u, nullptr, 0u, 3u, ABILITYTARGET::ENEMY, ABILITYSCALER::AGI);

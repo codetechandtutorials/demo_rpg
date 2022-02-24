@@ -7,36 +7,36 @@ StatBlock::StatBlock(stattype s, stattype i, stattype a, stattype arm, stattype 
   base.Armor = arm;
   base.ElementRes = elres;
 }
-stattype StatBlock::getBaseStrength() { return   base.Strength; }
-stattype StatBlock::getBaseIntellect() { return  base.Intellect; }
-stattype StatBlock::getBaseAgility() { return    base.Agility; }
-stattype StatBlock::getBaseArmor() { return      base.Armor; }
-stattype StatBlock::getBaseElementRes() { return base.ElementRes; }
+stattype StatBlock::GetBaseStrength() { return   base.Strength; }
+stattype StatBlock::GetBaseIntellect() { return  base.Intellect; }
+stattype StatBlock::GetBaseAgility() { return    base.Agility; }
+stattype StatBlock::GetBaseArmor() { return      base.Armor; }
+stattype StatBlock::GetBaseElementRes() { return base.ElementRes; }
 
-stattype StatBlock::getTotalStrength() { return   base.Strength + fromBuffs.Strength; }
-stattype StatBlock::getTotalIntellect() { return  base.Intellect + fromBuffs.Intellect; }
-stattype StatBlock::getTotalAgility() { return    base.Agility + fromBuffs.Agility; }
-stattype StatBlock::getTotalArmor() { return      base.Armor + fromBuffs.Armor; }
-stattype StatBlock::getTotalElementRes() { return base.ElementRes + fromBuffs.ElementRes; }
+stattype StatBlock::GetTotalStrength() { return   base.Strength + fromBuffs.Strength; }
+stattype StatBlock::GetTotalIntellect() { return  base.Intellect + fromBuffs.Intellect; }
+stattype StatBlock::GetTotalAgility() { return    base.Agility + fromBuffs.Agility; }
+stattype StatBlock::GetTotalArmor() { return      base.Armor + fromBuffs.Armor; }
+stattype StatBlock::GetTotalElementRes() { return base.ElementRes + fromBuffs.ElementRes; }
 
-void StatBlock::addNewBuff(Buff b) {
-  for (auto& buff : Buffs) {
-    if (b.Name == buff.Name) {
-      buff.Duration = b.Duration;
+void StatBlock::add_or_refresh_buff(Buff b) {
+  for (auto& _buff : Buffs) {
+    if (b.Name == _buff.Name) {
+      _buff.Duration = b.Duration;
       return;
     }
   }
   Buffs.push_back(b);
   recalculate_buffs();
 }
-void StatBlock::increaseStats(stattype s, stattype i, stattype a, stattype arm, stattype elres) {
+void StatBlock::increase_stats(stattype s, stattype i, stattype a, stattype arm, stattype elres) {
   base.Strength += s;
   base.Intellect += i;
   base.Agility += a;
   base.Armor += arm;
   base.ElementRes += elres;
 }
-void StatBlock::increaseStats(CoreStats cs) {
+void StatBlock::increase_stats(CoreStats cs) {
   base += cs;
 }
 void StatBlock::recalculate_buffs() {
