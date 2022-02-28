@@ -3,12 +3,12 @@
 
 Rogue::Rogue() : PlayerCharacterDelegate() {
   //MP = std::make_unique<PointWell>(BASEMP, BASEMP);  // be sure to init before PCCONSTRUCT MACRO
-  PCCONSTRUCT
+  PCCONSTRUCT;
 
 }
-void Rogue::level_char_up() noexcept {
-  LEVELUP
-    if (GetLevel() == 2) {
-      Abilities.emplace_back("PreciseAttack", 6u, nullptr, 0u, 3u, ABILITYTARGET::ENEMY, ABILITYSCALER::AGI);
-    }
+void Rogue::level_up() noexcept {
+  LEVELUP;
+  if (GetLevel() == 2) {
+    Abilities.emplace_back("PreciseAttack", 6u, nullptr, 0u, 3u, ABILITYTARGET::ENEMY, ABILITYSCALER::AGI);
+  }
 }

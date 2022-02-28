@@ -31,7 +31,7 @@ protected:
 private:
   exptype _current_exp;
   exptype _exp_to_next_level;
-  virtual void level_char_up() noexcept = 0;
+  virtual void level_up() noexcept = 0;
   leveltype _current_level;
   [[nodiscard]] const bool check_if_leveled() noexcept;
 };

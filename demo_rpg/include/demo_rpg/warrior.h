@@ -10,5 +10,5 @@ public:
   static const stattype BASEAGI = (stattype)2u;
   Warrior();
 private:
-  void level_char_up() noexcept override;
+  void level_up() noexcept override;
 };

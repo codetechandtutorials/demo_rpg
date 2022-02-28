@@ -32,7 +32,7 @@ const bool PlayerCharacterDelegate::check_if_leveled() noexcept {
   static const leveltype LEVELSCALAR = 2u;
   if (_current_exp >= _exp_to_next_level) {
     _current_level++;
-    level_char_up();
+    level_up();
     _exp_to_next_level *= LEVELSCALAR;
     return true;
   }

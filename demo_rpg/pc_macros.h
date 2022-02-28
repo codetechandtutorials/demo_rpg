@@ -8,7 +8,7 @@ if (MP) { \
   MP->SetMax(BASEMP); \
   MP->IncreaseCurrent(BASEMP); \
 }\
-increase_stats(BASESTR, BASEINT, BASEAGI);
+increase_stats(BASESTR, BASEINT, BASEAGI)
 
 #define LEVELUP \
 HP->SetMax((welltype)((BASEHP / 2.f) + HP->GetMax()));\
@@ -17,4 +17,4 @@ if (MP) {\
   MP->SetMax((welltype)((BASEMP / 2.f) + MP->GetMax()));\
   MP->IncreaseCurrent((welltype)(BASEMP / 2.f));\
 }\
-increase_stats((stattype)((BASESTR + 1u) / 2.f), (stattype)((BASEINT + 1u) / 2.f), (stattype)((BASEAGI + 1u) / 2.f));
+increase_stats((stattype)((BASESTR + 1u) / 2.f), (stattype)((BASEINT + 1u) / 2.f), (stattype)((BASEAGI + 1u) / 2.f))
