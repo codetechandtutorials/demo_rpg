@@ -1,10 +1,75 @@
 #include "pch.h"
 #include "demo_rpg/random.h"
+#include "demo_rpg/item.h"
+#include "demo_rpg/item_manager.h"
+
 #include <iostream>
 
 Player* MainCharacter = nullptr;
 Fightable* CurrentMonster = nullptr;
 int monsters_defeated = 0;
+
+void open_inventory() {
+  system("CLS");
+  auto list_of_items = MainCharacter->us.GetBackpackList();
+
+  std::cout
+    << "CURRENT INVENTORY\n"
+    << "-----------------\n\n";
+  for (const auto& item : list_of_items) {
+    std::cout << "> " << item->GetData()->Name << '\n';
+  }
+
+  std::cin.ignore(100, '\n');
+  std::cout << "\n\n Press Enter to Continue\n";
+  char c = getchar();
+
+}
+
+Item* drop_random_item() {
+  // 8 armor items, 2 weapon types, 1 potion : 11 different drop types
+  int drop_seed = Random::NTK(1, 100);
+  if (drop_seed < 6) {
+    std::string name;
+    CoreStats local_stats;
+    int magical_power = Random::NTK(0, 2);
+    switch (magical_power) {
+    case 0: name = "Helmet";
+      local_stats = CoreStats(0, 0, 0, 1, 0);
+      break;
+    case 1: name = "+1 Helmet";
+      local_stats = CoreStats(1, 1, 1, 2, 1);
+      break;
+    case 2: name = "+2 Helmet";
+      local_stats = CoreStats(2, 2, 2, 3, 2);
+      break;
+    default:
+      break;
+    }
+    return ItemManager::CreateArmor(name, local_stats, ARMORSLOT::HEAD);
+  } else if (drop_seed < 12) {
+    return ItemManager::CreateArmor("Breastplate", CoreStats(0, 0, 0, 1, 0), ARMORSLOT::CHEST);
+  } else if (drop_seed < 18) {
+    return ItemManager::CreateArmor("Leg Guards", CoreStats(0, 0, 0, 1, 0), ARMORSLOT::LEGS);
+  } else if (drop_seed < 24) {
+    return ItemManager::CreateArmor("Boots", CoreStats(0, 0, 0, 1, 0), ARMORSLOT::FEET);
+  } else if (drop_seed < 30) {
+    return ItemManager::CreateArmor("Gloves", CoreStats(0, 0, 0, 1, 0), ARMORSLOT::HANDS);
+  } else if (drop_seed < 36) {
+    return ItemManager::CreateArmor("Ring1", CoreStats(1, 1, 1, 0, 0), ARMORSLOT::RING1);
+  } else if (drop_seed < 42) {
+    return ItemManager::CreateArmor("Ring2", CoreStats(1, 1, 1, 0, 0), ARMORSLOT::RING2);
+  } else if (drop_seed < 48) {
+    return ItemManager::CreateArmor("Neck Gaurd", CoreStats(0, 0, 0, 1, 1), ARMORSLOT::NECK);
+  } else if (drop_seed < 54) {
+    return ItemManager::CreateWeapon("1H Sword", CoreStats(0, 0, 0, 0, 0), WEAPONSLOT::MELEE, 2, 3);
+  } else if (drop_seed < 60) {
+    return ItemManager::CreateWeapon("Bow", CoreStats(0, 0, 0, 0, 0), WEAPONSLOT::RANGED, 2, 3);
+  } else if (drop_seed < 91) {
+    return ItemManager::CreatePotion("Potion Of Healing", Random::NTK(2, 5), Random::NTK(1, 2));
+  }
+  return nullptr;
+}
 
 void create_monster(Fightable* in_out, const Player* base_calc) {
   if (!base_calc)
@@ -23,7 +88,7 @@ void create_monster(Fightable* in_out, const Player* base_calc) {
 
   in_out = new Fightable(Random::NTK(lowest_hp, max_hp), lowest_dam, max_dam);
 
-  
+
   in_out->xpos = Random::NTK(1, 11);
   in_out->ypos = Random::NTK(1, 11);
 
@@ -37,8 +102,7 @@ void create_monster(Fightable* in_out, const Player* base_calc) {
   CurrentMonster = in_out;
 }
 
-// returns true on win, false otherwise
-void enterfightsequence(Player& player1) {
+void enter_fight_sequence(Player& player1) {
   if (!CurrentMonster) {
     return;
   }
@@ -62,8 +126,19 @@ void enterfightsequence(Player& player1) {
 
   if (player1.IsAlive()) {
     std::cout << "You Won vs the Monster!\n";
-    std::cout << "xp gained: " << CurrentMonster->xpworth << '\n';
+
+    // gain xp
     player1.us.GainEXP(CurrentMonster->xpworth);
+    std::cout << "xp gained: " << CurrentMonster->xpworth << '\n';
+
+    // drop a random item
+    Item* item_drop = drop_random_item();
+    if (item_drop) {
+      ItemManager::MoveToBackpack(item_drop, &player1.us);
+      std::cout << "item recieved: " << item_drop->GetData()->Name << '\n';
+    }
+
+    // note monsters defeated count and prepare the next one
     monsters_defeated++;
     create_monster(CurrentMonster, &player1);
   } else {
@@ -82,7 +157,7 @@ void moveplayeronmap(Player& player1) {
     return;
 
   if (the_map[player1.xpos][player1.ypos] == 'M') {
-    enterfightsequence(player1);
+    enter_fight_sequence(player1);
   }
 
   // check that the player hasn't moved into a wall
@@ -157,7 +232,7 @@ int main(int argc, char** argv) {
   showmap();
 
   for (;;) {
-    std::cout << "\nmove(wasd): ";
+    std::cout << "\nmove(wasd), inv(i): ";
     char c = getchar();
 
     switch (c) {
@@ -173,6 +248,8 @@ int main(int argc, char** argv) {
     case 'd':
       MainCharacter->ypos++;
       break;
+    case 'i':
+      open_inventory();
     default:
       break;
     }
