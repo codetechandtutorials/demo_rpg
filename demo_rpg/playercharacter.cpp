@@ -241,15 +241,17 @@ const Weapon* PlayerCharacter::GetEquippedWeaponAt(unsigned long long i) const n
 
 const damagetype PlayerCharacter::MeleeAttack() const noexcept {
   damagetype tmp_damage_done = 0;
-  
+
   const Weapon* equipped_weapon = GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE);
   // if weapon exists get the damage, else the base damage stays 0
   if (equipped_weapon) {
     tmp_damage_done = Random::NTK(equipped_weapon->MinDamage, equipped_weapon->MaxDamage);
   }
-  
+
   // add 1/4 of str as bonus melee damage
   tmp_damage_done += damagetype(GetTotalStrength() / 4.f);
+
+  if (tmp_damage_done < 1) tmp_damage_done = 1;
 
   return tmp_damage_done;
 }
@@ -263,6 +265,8 @@ const damagetype PlayerCharacter::RangedAttack() const noexcept {
     tmp_damage_done = Random::NTK(equipped_weapon->MinDamage, equipped_weapon->MaxDamage);
     tmp_damage_done += damagetype(GetTotalAgility() / 4.f);  // add 1/4 of agi as bonus ranged damage
   }
+
+  if (tmp_damage_done < 1) tmp_damage_done = 1;
 
   return tmp_damage_done;
 }
