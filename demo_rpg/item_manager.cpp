@@ -131,12 +131,6 @@ bool ItemManager::MoveToBackpack(Item* item_to_move, PlayerCharacter* p_char) {
   return true;
 }
 
-bool ItemManager::RemoveFromBackpack(Item* item_to_remove, PlayerCharacter* p_char) {
-  if (!item_to_remove->GetData() || !item_to_remove || !p_char)
-    return false;
-
-}
-
 void ItemManager::DeleteItem(Item*& item_to_delete/*, std::vector<Item*>& pack_to_delete_from*/) {
   delete item_to_delete;
   item_to_delete = nullptr;
