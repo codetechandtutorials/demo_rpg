@@ -49,6 +49,14 @@ void PlayerCharacter::cleanup_backpack() noexcept {
   );
   std::for_each(to_remove, _backpack.end(), [](Item*& i) { ItemManager::DeleteItem(i); });
   _backpack.erase(to_remove, _backpack.end());
+
+
+  const auto to_remove_ref = std::stable_partition(_backpack.begin(), _backpack.end(),
+    [](const Item* i) -> bool { return !i->GetMarkedAsBackpackRefGone(); }
+  );
+  _backpack.erase(to_remove_ref, _backpack.end());
+
+
 }
 
 PlayerCharacter::PlayerCharacter(PlayerCharacterDelegate* pc) : _player_class(pc) {

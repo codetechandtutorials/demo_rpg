@@ -54,15 +54,22 @@ bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
   if (!item_to_equip->GetData() || !item_to_equip || !p_char)
     return false;
 
+  if (IsItemPotion(item_to_equip))
+    return false;
+
   Armor* armor = dynamic_cast<Armor*>(item_to_equip->_data);
   if (armor) {
     unsigned long long slot_num = (unsigned long long)armor->Slot;
     if (p_char->_equipped_armor[slot_num]) {
+      p_char->_equipped_armor[slot_num]->_marked_as_backpack_ref_gone = false;
       MoveToBackpack(p_char->_equipped_armor[slot_num], p_char);  // move old item to backpack
       p_char->_equipped_armor[slot_num] = item_to_equip;  // equip new item
+      item_to_equip->_marked_as_backpack_ref_gone = true;
     } else {
       p_char->_equipped_armor[slot_num] = item_to_equip;
+      item_to_equip->_marked_as_backpack_ref_gone = true;
     }
+    p_char->cleanup_backpack();  // get rid of pointers in backpack that are now equipped
     return true;
   }
 
@@ -70,16 +77,17 @@ bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
   if (weapon) {
     unsigned long long slot_num = (unsigned long long)weapon->Slot;
     if (p_char->_equipped_weapons[slot_num]) {
+      p_char->_equipped_weapons[slot_num]->_marked_as_backpack_ref_gone = false;
       MoveToBackpack(p_char->_equipped_weapons[slot_num], p_char);  // move old item to backpack
       p_char->_equipped_weapons[slot_num] = item_to_equip;  // equip new item
+      item_to_equip->_marked_as_backpack_ref_gone = true;
     } else {
       p_char->_equipped_weapons[slot_num] = item_to_equip;
+      item_to_equip->_marked_as_backpack_ref_gone = true;
     }
+    p_char->cleanup_backpack();  // get rid of pointers in backpack that are now equipped
     return true;
   }
-
-  // if item fails to equip, move it to the characters backpack
-  MoveToBackpack(item_to_equip, p_char);
 
   return false;
 
@@ -121,6 +129,12 @@ bool ItemManager::MoveToBackpack(Item* item_to_move, PlayerCharacter* p_char) {
     return false;
   p_char->move_to_backpack(item_to_move);
   return true;
+}
+
+bool ItemManager::RemoveFromBackpack(Item* item_to_remove, PlayerCharacter* p_char) {
+  if (!item_to_remove->GetData() || !item_to_remove || !p_char)
+    return false;
+
 }
 
 void ItemManager::DeleteItem(Item*& item_to_delete/*, std::vector<Item*>& pack_to_delete_from*/) {
