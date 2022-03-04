@@ -20,11 +20,11 @@ void display_character_sheet() {
     << "\n\nEquipped Gear\n";
     if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)) {
       std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->Name;
-      std::cout << "MELEE: " << weapon_name << "d(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MaxDamage << ")\n";
+      std::cout << "MELEE: " << weapon_name << "  damage(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MaxDamage << ")\n";
     }
     if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)) {
       std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->Name;
-      std::cout << "RANGED: " << weapon_name << "d(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MaxDamage << ")\n";
+      std::cout << "RANGED: " << weapon_name << "  damage(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MaxDamage << ")\n";
     }
     if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)) {
       std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)->Name;
