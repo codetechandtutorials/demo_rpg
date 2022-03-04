@@ -121,6 +121,66 @@ void open_inventory() {
 
 }
 
+bool combat_inventory() {
+  bool done = false;
+  bool action_used = false;
+  int selected_item_num = 0;
+  while (!done || !action_used) {
+    system("CLS");
+    auto list_of_items = MainCharacter->us.GetBackpackList();
+    std::cout
+      << "CURRENT INVENTORY\n"
+      << "-----------------\n\n";
+    int items_in_backpack_count = 0;
+    for (const auto& item : list_of_items) {
+      if (selected_item_num == items_in_backpack_count)
+        std::cout << "> ";
+      else
+        std::cout << "  ";
+      std::cout << item->GetData()->Name << '\n';
+      if (ItemManager::IsItemPotion(item)) {
+        Potion* potion = nullptr;
+        ItemManager::CastItemToPotion(item, potion);
+        if (potion)
+          std::cout << "    Quantity: " << potion->Quantity << '\n';
+      }
+      items_in_backpack_count++;
+    }
+
+    std::cin.ignore(100, '\n');
+    std::cout << "\n d = done, w = up, s = down, u = use/equip current\n";
+    char c = getchar();
+    switch (c) {
+    case 'd':
+      done = true;
+      break;
+    case 'w':
+      selected_item_num--;
+      if (selected_item_num < 0)
+        selected_item_num = 0;
+      break;
+    case 's':
+      selected_item_num++;
+      if (selected_item_num > list_of_items.size() - 1)
+        selected_item_num = (int)list_of_items.size() - 1;
+      break;
+    case 'u':
+      if (list_of_items.empty())
+        continue;
+      if (ItemManager::IsItemPotion(list_of_items[selected_item_num])) {
+        action_used = ItemManager::Use(list_of_items[selected_item_num], &(MainCharacter->us));
+      }
+      else {
+        action_used = ItemManager::Equip(list_of_items[selected_item_num], &(MainCharacter->us));
+      }
+      break;
+    default:
+      break;
+    }
+  }
+  return action_used;
+}
+
 Item* drop_random_item() {
   // 8 armor items, 2 weapon types, 1 potion : 11 different drop types
   int drop_seed = Random::NTK(1, 100);
@@ -201,26 +261,46 @@ void enter_fight_sequence(Player& player1) {
   if (!CurrentMonster) {
     return;
   }
+  // options available per turn
+  enum class FightOptions { NONE, ATTACK, INVENTORY, ABILITY };
   while (player1.IsAlive() && CurrentMonster->IsAlive()) {
-    system("CLS");
-    // display fight interface
-    std::cout
-      << "Player         vs       Monster\n"
-      << "hp: " << player1.us.GetCurrentHP() << '/' << player1.us.GetMaxHP() << "                  hp: " << CurrentMonster->monster.HP.GetCurrent() << '/' << CurrentMonster->monster.HP.GetMax() << '\n'
-      << "action(a:attack): ";
+    FightOptions action_taken = FightOptions::NONE;
     char action = '1';
-    while (action != 'a') {
+    while (action_taken == FightOptions::NONE) {
+      // display fight interface
+      system("CLS");
+      std::cout
+        << "Player         vs       Monster\n"
+        << "hp: " << player1.us.GetCurrentHP() << '/' << player1.us.GetMaxHP() << "                  hp: " << CurrentMonster->monster.HP.GetCurrent() << '/' << CurrentMonster->monster.HP.GetMax() << '\n'
+        << "action(a:attack,i:inv): ";
+        //<< "action(a:attack,i:inv,b:abilites): ";
       action = getchar();
+      switch (action) {
+      case 'a':
+        action_taken = FightOptions::ATTACK;
+        CurrentMonster->monster.HP.ReduceCurrent(player1.us.MeleeAttack());
+        break;
+      case 'i':
+        action_taken = (combat_inventory()) ? FightOptions::INVENTORY : FightOptions::NONE;
+        break;
+      //case 'b':
+      //  action_taken = (enter_ability_selection()) ? FightOptions::ABILITY : FightOptions::NONE;
+      //  break;
+      default:
+        break;
+      }
     }
-    CurrentMonster->monster.HP.ReduceCurrent(player1.us.MeleeAttack());
 
+    // monster hits when your turn is over
     if (CurrentMonster->IsAlive()) {
+      // monster attack every turn
       int damage_we_take = CurrentMonster->monster.Attack();
       damage_we_take -= player1.us.GetTotalArmor();
       if (damage_we_take < 1)
         damage_we_take = 1;
       player1.us.TakeDamage(damage_we_take);
     }
+
   }
 
   if (player1.IsAlive()) {
