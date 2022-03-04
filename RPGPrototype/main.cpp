@@ -80,6 +80,12 @@ void open_inventory() {
       else
         std::cout << "  ";
       std::cout << item->GetData()->Name << '\n';
+      if (ItemManager::IsItemPotion(item)) {
+        Potion* potion = nullptr;
+        ItemManager::CastItemToPotion(item, potion);
+        if (potion)
+          std::cout << "    Quantity: " << potion->Quantity << '\n';
+      }
       items_in_backpack_count++;
     }
 
