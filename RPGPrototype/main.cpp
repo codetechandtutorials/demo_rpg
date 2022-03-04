@@ -13,7 +13,7 @@ void display_character_sheet() {
   system("CLS");
   std::cout
     << "Your Character\n"
-    << "-----------------\n"
+    << "L: " << MainCharacter->us.GetLevel() << " XP: " << MainCharacter->us.GetCurrentEXP() << " NEXT: " << MainCharacter->us.GetEXPToNextLevel() << '\n'
     << "Hit Points: " << MainCharacter->us.GetCurrentHP() << "/" << MainCharacter->us.GetMaxHP() << '\n'
     << "Armor: " << MainCharacter->us.GetTotalArmor() << "  Resistance: " << MainCharacter->us.GetTotalElementRes() << '\n'
     << "STR: " << MainCharacter->us.GetTotalStrength() << " AGI: " << MainCharacter->us.GetTotalAgility() << " INT: " << MainCharacter->us.GetTotalIntellect() << '\n'
