@@ -403,6 +403,9 @@ int main(int argc, char** argv) {
     return -12;  // failed to make player character
   }
 
+  ItemManager::MoveToBackpack(drop_random_item(), &MainCharacter->us);
+  ItemManager::MoveToBackpack(drop_random_item(), &MainCharacter->us);
+
   create_monster(CurrentMonster, MainCharacter);
 
   the_map[MainCharacter->xpos][MainCharacter->ypos] = 'P';
