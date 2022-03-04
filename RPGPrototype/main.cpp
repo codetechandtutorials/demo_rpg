@@ -9,20 +9,109 @@ Player* MainCharacter = nullptr;
 Fightable* CurrentMonster = nullptr;
 int monsters_defeated = 0;
 
-void open_inventory() {
+void display_character_sheet() {
   system("CLS");
-  auto list_of_items = MainCharacter->us.GetBackpackList();
-
   std::cout
-    << "CURRENT INVENTORY\n"
-    << "-----------------\n\n";
-  for (const auto& item : list_of_items) {
-    std::cout << "> " << item->GetData()->Name << '\n';
-  }
+    << "Your Character\n"
+    << "-----------------\n"
+    << "Hit Points: " << MainCharacter->us.GetCurrentHP() << "/" << MainCharacter->us.GetMaxHP() << '\n'
+    << "Armor: " << MainCharacter->us.GetTotalArmor() << "  Resistance: " << MainCharacter->us.GetTotalElementRes() << '\n'
+    << "STR: " << MainCharacter->us.GetTotalStrength() << " AGI: " << MainCharacter->us.GetTotalAgility() << " INT: " << MainCharacter->us.GetTotalIntellect() << '\n'
+    << "\n\nEquipped Gear\n";
+    if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)) {
+      std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->Name;
+      std::cout << "MELEE: " << weapon_name << "d(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MaxDamage << ")\n";
+    }
+    if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)) {
+      std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->Name;
+      std::cout << "RANGED: " << weapon_name << "d(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MaxDamage << ")\n";
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)->Name;
+      std::cout << "HEAD: " << armor_name << '\n';
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK)->Name;
+      std::cout << "NECK: " << armor_name << '\n';
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST)->Name;
+      std::cout << "CHEST: " << armor_name << '\n';
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS)->Name;
+      std::cout << "HANDS: " << armor_name << '\n';
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1)->Name;
+      std::cout << "RING1: " << armor_name << '\n';
+    } 
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2)->Name;
+      std::cout << "RING2: " << armor_name << '\n';
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS)->Name;
+      std::cout << "LEGS: " << armor_name << '\n';
+    }
+    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET)) {
+      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET)->Name;
+      std::cout << "FEET: " << armor_name << '\n';
+    }
 
-  std::cin.ignore(100, '\n');
-  std::cout << "\n\n Press Enter to Continue\n";
-  char c = getchar();
+    std::cin.ignore(100, '\n');
+    std::cout << "\n press enter to continue\n";
+    char c = getchar();
+}
+
+void open_inventory() {
+  bool done = false;
+  int selected_item_num = 0;
+  while (!done) {
+    system("CLS");
+    auto list_of_items = MainCharacter->us.GetBackpackList();
+    std::cout
+      << "CURRENT INVENTORY\n"
+      << "-----------------\n\n";
+    int items_in_backpack_count = 0;
+    for (const auto& item : list_of_items) {
+      if (selected_item_num == items_in_backpack_count)
+        std::cout << "> ";
+      else
+        std::cout << "  ";
+      std::cout << item->GetData()->Name << '\n';
+      items_in_backpack_count++;
+    }
+
+    std::cin.ignore(100, '\n');
+    std::cout << "\n d = done, w = up, s = down, u = use/equip current\n";
+    char c = getchar();
+    switch (c) {
+    case 'd':
+      done = true;
+      break;
+    case 'w':
+      selected_item_num--;
+      if (selected_item_num < 0)
+        selected_item_num = 0;
+      break;
+    case 's':
+      selected_item_num++;
+      if (selected_item_num > list_of_items.size() - 1)
+        selected_item_num = (int)list_of_items.size() - 1;
+      break;
+    case 'u':
+      if (list_of_items.empty())
+        continue;
+      if (ItemManager::IsItemPotion(list_of_items[selected_item_num]))
+        ItemManager::Use(list_of_items[selected_item_num], &(MainCharacter->us));
+      else
+        ItemManager::Equip(list_of_items[selected_item_num], &(MainCharacter->us));
+      break;
+    default:
+      break;
+    }
+  }
 
 }
 
@@ -120,7 +209,11 @@ void enter_fight_sequence(Player& player1) {
     CurrentMonster->monster.HP.ReduceCurrent(player1.us.MeleeAttack());
 
     if (CurrentMonster->IsAlive()) {
-      player1.us.TakeDamage(CurrentMonster->monster.Attack());
+      int damage_we_take = CurrentMonster->monster.Attack();
+      damage_we_take -= player1.us.GetTotalArmor();
+      if (damage_we_take < 1)
+        damage_we_take = 1;
+      player1.us.TakeDamage(damage_we_take);
     }
   }
 
@@ -232,7 +325,7 @@ int main(int argc, char** argv) {
   showmap();
 
   for (;;) {
-    std::cout << "\nmove(wasd), inv(i): ";
+    std::cout << "\nmove(wasd), inv(i), charsheet(c): ";
     char c = getchar();
 
     switch (c) {
@@ -250,6 +343,10 @@ int main(int argc, char** argv) {
       break;
     case 'i':
       open_inventory();
+      break;
+    case 'c':
+      display_character_sheet();
+      break;
     default:
       break;
     }

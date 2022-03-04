@@ -28,6 +28,7 @@ class Item final {
 public:
   const ItemDelegate* GetData() { return _data; }
   bool GetMarkedForDeletion() const { return _marked_for_deletion; }
+  bool GetMarkedAsBackpackRefGone() const { return _marked_as_backpack_ref_gone; }
 private:
   ~Item() {   // only ItemManger can clean this up
     if (_data) {
@@ -37,6 +38,7 @@ private:
   }
   ItemDelegate* _data;
   bool _marked_for_deletion = false;
+  bool _marked_as_backpack_ref_gone = false;
   Item(ItemDelegate* item) : _data(item) {}
   friend class ItemManager;
 
