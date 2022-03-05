@@ -125,7 +125,7 @@ bool combat_inventory() {
   bool done = false;
   bool action_used = false;
   int selected_item_num = 0;
-  while (!done || !action_used) {
+  while (!done) {
     system("CLS");
     auto list_of_items = MainCharacter->us.GetBackpackList();
     std::cout
@@ -177,6 +177,11 @@ bool combat_inventory() {
     default:
       break;
     }
+    if (action_used)
+      break;
+  }
+  return action_used;
+}
   }
   return action_used;
 }
