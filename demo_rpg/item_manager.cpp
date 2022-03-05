@@ -126,8 +126,11 @@ bool ItemManager::Use(Item* item_to_use, PlayerCharacter* p_char) {
 }
 
 bool ItemManager::MoveToBackpack(Item* item_to_move, PlayerCharacter* p_char) {
-  if (!item_to_move->GetData() || !item_to_move || !p_char)
+  if (!item_to_move || !p_char)
     return false;
+  if (!item_to_move->GetData())
+    return false;
+
   p_char->move_to_backpack(item_to_move);
   return true;
 }
