@@ -50,6 +50,7 @@ bool ItemManager::IsItemPotion(const Item* in) {
 
 
 // character item helpers
+// returns true if equip was successful
 bool ItemManager::Equip(Item* item_to_equip, PlayerCharacter* p_char) {
   if (!item_to_equip->GetData() || !item_to_equip || !p_char)
     return false;
