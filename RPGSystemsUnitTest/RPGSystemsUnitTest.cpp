@@ -288,12 +288,12 @@ public:
     PlayerCharacter p1(new Cleric());
     Assert::AreEqual((int)Cleric::BASEHP, (int)p1.GetMaxHP());
     Assert::AreEqual((int)Cleric::BASEMP, (int)p1.GetMaxMP());
-    Assert::AreEqual(std::string("Heal"), p1.GetAbilityList().front().Name);
+    Assert::AreEqual(std::string("Heal"), p1.GetAbilityList().front()->Name);
 
     p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("Smite"), p1.GetAbilityList()[1].Name);
+    Assert::AreEqual(std::string("Smite"), p1.GetAbilityList()[1]->Name);
     Assert::AreEqual((int)(Cleric::BASEHP + (Cleric::BASEHP / 2.f)), (int)p1.GetMaxHP());
     Assert::AreEqual((int)(Cleric::BASEMP + (Cleric::BASEMP / 2.f)), (int)p1.GetMaxMP());
   }
@@ -304,7 +304,7 @@ public:
     p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("PreciseAttack"), p1.GetAbilityList().front().Name);
+    Assert::AreEqual(std::string("PreciseAttack"), p1.GetAbilityList().front()->Name);
     Assert::AreEqual((int)(Rogue::BASEHP + (Rogue::BASEHP / 2.f)), (int)p1.GetMaxHP());
   }
   TEST_METHOD(Player_Warrior) {
@@ -314,19 +314,25 @@ public:
     p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("PowerAttack"), p1.GetAbilityList().front().Name);
+    Assert::AreEqual(std::string("Power Attack"), p1.GetAbilityList().front()->Name);
     Assert::AreEqual((int)(Warrior::BASEHP + (Warrior::BASEHP / 2.f)), (int)p1.GetMaxHP());
+
+    p1.GainEXP(200u);
+    // level 3
+    Assert::AreEqual(3, (int)p1.GetLevel());
+    Assert::AreEqual(std::string("Healing Surge"), p1.GetAbilityList()[1]->Name);
+    Assert::AreEqual((int)(Warrior::BASEHP + ((Warrior::BASEHP / 2.f) *2)), (int)p1.GetMaxHP());
   }
   TEST_METHOD(Player_Wizard) {
     PlayerCharacter p1(new Wizard());
     Assert::AreEqual((int)Wizard::BASEHP, (int)p1.GetMaxHP());
     Assert::AreEqual((int)Wizard::BASEMP, (int)p1.GetMaxMP());
-    Assert::AreEqual(std::string("Firebolt"), p1.GetAbilityList().front().Name);
+    Assert::AreEqual(std::string("Firebolt"), p1.GetAbilityList().front()->Name);
 
     p1.GainEXP(100u);
     // level 2
     Assert::AreEqual(2, (int)p1.GetLevel());
-    Assert::AreEqual(std::string("IceBolt"), p1.GetAbilityList()[1].Name);
+    Assert::AreEqual(std::string("IceBolt"), p1.GetAbilityList()[1]->Name);
     Assert::AreEqual((int)(Wizard::BASEHP + (Wizard::BASEHP / 2.f)), (int)p1.GetMaxHP());
     Assert::AreEqual((int)(Wizard::BASEMP + (Wizard::BASEMP / 2.f)), (int)p1.GetMaxMP());
   }
@@ -358,11 +364,11 @@ public:
     Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2));
     Assert::IsNotNull(rogue.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK));
 
-    // equipping a potion should fail and go into inventory
+    // equipping a potion should do nothing
     Assert::IsFalse(ItemManager::Equip(ItemManager::CreatePotion("ArmorPot", 0, 1, new Buff("ArmorBuff", CoreStats(0, 0, 0, 3, 0), 5)), &rogue));
 
     auto backpack = rogue.GetBackpackList();
-    Assert::AreEqual(1, (int)backpack.size());
+    Assert::AreEqual(0, (int)backpack.size());
 
   }
 
