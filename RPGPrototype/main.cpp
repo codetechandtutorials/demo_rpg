@@ -262,7 +262,7 @@ void create_monster(Fightable* in_out, const Player* base_calc) {
   CurrentMonster = in_out;
 }
 
-void enter_fight_sequence(Player& player1) {
+void fight_sequence(Player& player1) {
   if (!CurrentMonster) {
     return;
   }
@@ -341,7 +341,7 @@ void moveplayeronmap(Player& player1) {
     return;
 
   if (the_map[player1.xpos][player1.ypos] == 'M') {
-    enter_fight_sequence(player1);
+    fight_sequence(player1);
   }
 
   // check that the player hasn't moved into a wall
