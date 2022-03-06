@@ -6,8 +6,8 @@
 enum class ABILITYTARGET { SELF, ALLY, ENEMY };
 enum class ABILITYSCALER { NONE, STR, AGI, INT };
 
-struct Ability {
-
+class Ability {
+public:
   Ability(std::string name = "unnamed",
     uint32_t hpe = 1u,
     Buff* b = nullptr,
@@ -18,6 +18,17 @@ struct Ability {
 
   ~Ability();
 
+  uint32_t CooldownLeft;
+
+  [[nodiscard]] const std::string GetName() const noexcept;
+  [[nodiscard]] const uint32_t GetCooldown() const noexcept;
+  [[nodiscard]] const uint32_t GetHPEffect() const noexcept;
+  [[nodiscard]] const Buff* GetBuff() const noexcept;
+  [[nodiscard]] const uint32_t GetCost() const noexcept;
+  [[nodiscard]] const ABILITYTARGET GetTarget() const noexcept;
+  [[nodiscard]] const ABILITYSCALER GetScaler() const noexcept;
+
+private:
   std::string Name;
   uint32_t HpEffect;
   Buff* GivenBuff;

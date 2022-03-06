@@ -235,7 +235,7 @@ const stattype PlayerCharacter::GetTotalElementRes() const noexcept {
   }
   return _player_class->GetTotalElementRes() + resist_from_armor + elres_from_weapons;
 }
-const std::vector<Ability> PlayerCharacter::GetAbilityList() const noexcept { return _player_class->Abilities; }
+const std::vector<Ability*> PlayerCharacter::GetAbilityList() const noexcept { return _player_class->Abilities; }
 const std::vector<Buff> PlayerCharacter::GetBuffList() const noexcept { return _player_class->Buffs; }
 const std::vector<Item*> PlayerCharacter::GetBackpackList() const noexcept { return _backpack; }
 const Armor* PlayerCharacter::GetEquippedArmorAt(unsigned long long i) const noexcept {

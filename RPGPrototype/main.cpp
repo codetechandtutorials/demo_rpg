@@ -2,7 +2,6 @@
 #include "demo_rpg/random.h"
 #include "demo_rpg/item.h"
 #include "demo_rpg/item_manager.h"
-
 #include <iostream>
 
 Player* MainCharacter = nullptr;
@@ -18,50 +17,50 @@ void display_character_sheet() {
     << "Armor: " << MainCharacter->us.GetTotalArmor() << "  Resistance: " << MainCharacter->us.GetTotalElementRes() << '\n'
     << "STR: " << MainCharacter->us.GetTotalStrength() << " AGI: " << MainCharacter->us.GetTotalAgility() << " INT: " << MainCharacter->us.GetTotalIntellect() << '\n'
     << "\n\nEquipped Gear\n";
-    if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)) {
-      std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->Name;
-      std::cout << "MELEE: " << weapon_name << "  damage(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MaxDamage << ")\n";
-    }
-    if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)) {
-      std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->Name;
-      std::cout << "RANGED: " << weapon_name << "  damage(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MaxDamage << ")\n";
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)->Name;
-      std::cout << "HEAD: " << armor_name << '\n';
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK)->Name;
-      std::cout << "NECK: " << armor_name << '\n';
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST)->Name;
-      std::cout << "CHEST: " << armor_name << '\n';
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS)->Name;
-      std::cout << "HANDS: " << armor_name << '\n';
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1)->Name;
-      std::cout << "RING1: " << armor_name << '\n';
-    } 
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2)->Name;
-      std::cout << "RING2: " << armor_name << '\n';
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS)->Name;
-      std::cout << "LEGS: " << armor_name << '\n';
-    }
-    if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET)) {
-      std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET)->Name;
-      std::cout << "FEET: " << armor_name << '\n';
-    }
+  if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)) {
+    std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->Name;
+    std::cout << "MELEE: " << weapon_name << "  damage(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::MELEE)->MaxDamage << ")\n";
+  }
+  if (MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)) {
+    std::string weapon_name = MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->Name;
+    std::cout << "RANGED: " << weapon_name << "  damage(" << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MinDamage << '-' << MainCharacter->us.GetEquippedWeaponAt((unsigned long long)WEAPONSLOT::RANGED)->MaxDamage << ")\n";
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HEAD)->Name;
+    std::cout << "HEAD: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::NECK)->Name;
+    std::cout << "NECK: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::CHEST)->Name;
+    std::cout << "CHEST: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::HANDS)->Name;
+    std::cout << "HANDS: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING1)->Name;
+    std::cout << "RING1: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::RING2)->Name;
+    std::cout << "RING2: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::LEGS)->Name;
+    std::cout << "LEGS: " << armor_name << '\n';
+  }
+  if (MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET)) {
+    std::string armor_name = MainCharacter->us.GetEquippedArmorAt((unsigned long long)ARMORSLOT::FEET)->Name;
+    std::cout << "FEET: " << armor_name << '\n';
+  }
 
-    std::cin.ignore(100, '\n');
-    std::cout << "\n press enter to continue\n";
-    char c = getchar();
+  std::cin.ignore(100, '\n');
+  std::cout << "\n press enter to continue\n";
+  char c = getchar();
 }
 
 void open_inventory() {
@@ -125,7 +124,7 @@ bool combat_inventory() {
   bool done = false;
   bool action_used = false;
   int selected_item_num = 0;
-  while (!done || !action_used) {
+  while (!done) {
     system("CLS");
     auto list_of_items = MainCharacter->us.GetBackpackList();
     std::cout
@@ -169,14 +168,96 @@ bool combat_inventory() {
         continue;
       if (ItemManager::IsItemPotion(list_of_items[selected_item_num])) {
         action_used = ItemManager::Use(list_of_items[selected_item_num], &(MainCharacter->us));
-      }
-      else {
+      } else {
         action_used = ItemManager::Equip(list_of_items[selected_item_num], &(MainCharacter->us));
       }
       break;
     default:
       break;
     }
+    if (action_used)
+      break;
+  }
+  return action_used;
+}
+
+bool combat_ability_selection() {
+  bool ability_done = false;
+  bool action_used = false;
+  int selected_ability = 0;
+  while (!ability_done) {
+    auto current_abilities = MainCharacter->us.GetAbilityList();
+    system("CLS");
+    std::cout
+      << "CURRENT ABILITIES\n\n";
+    int abilites_in_list_count = 0;
+    for (const auto& abil : current_abilities) {
+      std::cout << ((selected_ability == abilites_in_list_count) ? "> " : "  ");
+      std::cout << abil->GetName() << '\n';
+      //todo: cooldowns and mp
+      abilites_in_list_count++;
+    }
+
+    std::cin.ignore(100, '\n');
+    std::cout << "\n d = done, w = up, s = down, u = use\n";
+    char c = getchar();
+    switch (c) {
+    case 'd':
+      ability_done = true;
+      break;
+    case 'w':
+      selected_ability--;
+      if (selected_ability < 0)
+        selected_ability = 0;
+      break;
+    case 's':
+      selected_ability++;
+      if (selected_ability > current_abilities.size() - 1)
+        selected_ability = (int)current_abilities.size() - 1;
+      break;
+    case 'u':
+      if (current_abilities[selected_ability]->GetTarget() == ABILITYTARGET::ENEMY) {
+        int total_damage = 0;
+        total_damage += current_abilities[selected_ability]->GetHPEffect();
+        switch (current_abilities[selected_ability]->GetScaler()) {
+        case ABILITYSCALER::STR:
+          total_damage += (int)(MainCharacter->us.GetTotalStrength() / 2.f);
+          break;
+        case ABILITYSCALER::INT:
+          total_damage += (int)(MainCharacter->us.GetTotalIntellect() / 2.f);
+          break;
+        case ABILITYSCALER::AGI:
+          total_damage += (int)(MainCharacter->us.GetTotalAgility() / 2.f);
+          break;
+        default:
+          break;
+        }
+        CurrentMonster->monster.HP.ReduceCurrent(total_damage);
+      } else {  // itsa heal (probably)
+        int total_heal = 0;
+        total_heal += current_abilities[selected_ability]->GetHPEffect();
+        switch (current_abilities[selected_ability]->GetScaler()) {
+        case ABILITYSCALER::STR:
+          total_heal += (int)(MainCharacter->us.GetTotalStrength() / 2.f);
+          break;
+        case ABILITYSCALER::INT:
+          total_heal += (int)(MainCharacter->us.GetTotalIntellect() / 2.f);
+          break;
+        case ABILITYSCALER::AGI:
+          total_heal += (int)(MainCharacter->us.GetTotalAgility() / 2.f);
+          break;
+        default:
+          break;
+        }
+        MainCharacter->us.Heal(total_heal);
+      }
+      action_used = true;
+      break;
+    default:
+      break;
+    }
+    if (action_used)
+      break;
   }
   return action_used;
 }
@@ -257,7 +338,7 @@ void create_monster(Fightable* in_out, const Player* base_calc) {
   CurrentMonster = in_out;
 }
 
-void enter_fight_sequence(Player& player1) {
+void fight_sequence(Player& player1) {
   if (!CurrentMonster) {
     return;
   }
@@ -265,15 +346,14 @@ void enter_fight_sequence(Player& player1) {
   enum class FightOptions { NONE, ATTACK, INVENTORY, ABILITY };
   while (player1.IsAlive() && CurrentMonster->IsAlive()) {
     FightOptions action_taken = FightOptions::NONE;
-    char action = '1';
+    char action = '\0';
     while (action_taken == FightOptions::NONE) {
       // display fight interface
       system("CLS");
       std::cout
         << "Player         vs       Monster\n"
         << "hp: " << player1.us.GetCurrentHP() << '/' << player1.us.GetMaxHP() << "                  hp: " << CurrentMonster->monster.HP.GetCurrent() << '/' << CurrentMonster->monster.HP.GetMax() << '\n'
-        << "action(a:attack,i:inv): ";
-        //<< "action(a:attack,i:inv,b:abilites): ";
+        << "action(a:attack,i:inv,b:abilites): ";
       action = getchar();
       switch (action) {
       case 'a':
@@ -283,9 +363,9 @@ void enter_fight_sequence(Player& player1) {
       case 'i':
         action_taken = (combat_inventory()) ? FightOptions::INVENTORY : FightOptions::NONE;
         break;
-      //case 'b':
-      //  action_taken = (enter_ability_selection()) ? FightOptions::ABILITY : FightOptions::NONE;
-      //  break;
+      case 'b':
+        action_taken = (combat_ability_selection()) ? FightOptions::ABILITY : FightOptions::NONE;
+        break;
       default:
         break;
       }
@@ -336,7 +416,7 @@ void moveplayeronmap(Player& player1) {
     return;
 
   if (the_map[player1.xpos][player1.ypos] == 'M') {
-    enter_fight_sequence(player1);
+    fight_sequence(player1);
   }
 
   // check that the player hasn't moved into a wall

@@ -25,7 +25,7 @@ public:
   void GiveEXP(const exptype amt) noexcept;
   std::unique_ptr<PointWell> HP;
   std::unique_ptr<PointWell> MP;
-  std::vector<Ability> Abilities;
+  std::vector<Ability*> Abilities;
   std::vector<Buff> Buffs;
 protected:
 private:
@@ -60,7 +60,7 @@ public:
   [[nodiscard]] const stattype GetTotalAgility() const noexcept;
   [[nodiscard]] const stattype GetTotalArmor() const noexcept;
   [[nodiscard]] const stattype GetTotalElementRes() const noexcept;
-  [[nodiscard]] const std::vector<Ability> GetAbilityList() const noexcept;
+  [[nodiscard]] const std::vector<Ability*> GetAbilityList() const noexcept;
   [[nodiscard]] const std::vector<Buff> GetBuffList() const noexcept;
   [[nodiscard]] const std::vector<Item*> GetBackpackList() const noexcept;
   [[nodiscard]] const Armor* GetEquippedArmorAt(unsigned long long i) const noexcept;
